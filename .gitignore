@@ -1,8 +1,10 @@
 # Ignore all intermediate files in obj
-obj/
+qp/doc
 
 # Object files:
 *.o
+*.d
+*.map
 
 # Image files:
 #*.bin
@@ -12,7 +14,3 @@ obj/
 # Backup files of some editors:
 *~
 
-# Eclipse files:
-.project
-.cproject
-.settings/

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model version="6.1.1" links="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.state-machine.com/qm/qm.xsd">
+ <documentation>Blinky example</documentation>
+ <!--${qpc}-->
+ <framework name="qpc"/>
+ <!--${AOs}-->
+ <package name="AOs" stereotype="0x02">
+  <!--${AOs::Blinky}-->
+  <class name="Blinky" superclass="qpc::QActive">
+   <!--${AOs::Blinky::timeEvt}-->
+   <attribute name="timeEvt" type="QTimeEvt" visibility="0x02" properties="0x00"/>
+   <!--${AOs::Blinky::inst}-->
+   <attribute name="inst" type="Blinky" visibility="0x00" properties="0x01"/>
+   <!--${AOs::Blinky::ctor}-->
+   <operation name="ctor" type="void" visibility="0x00" properties="0x00">
+    <documentation>// constructor</documentation>
+    <code>QActive_ctor(&amp;me-&gt;super, Q_STATE_CAST(&amp;Blinky_initial));
+QTimeEvt_ctorX(&amp;me-&gt;timeEvt, &amp;me-&gt;super, TIMEOUT_SIG, 0U);</code>
+   </operation>
+   <!--${AOs::Blinky::SM}-->
+   <statechart properties="0x03">
+    <documentation>Blinky state machine</documentation>
+    <!--${AOs::Blinky::SM::initial}-->
+    <initial target="../1">
+     <action>(void)par; // unused parameter
+QTimeEvt_armX(&amp;me-&gt;timeEvt,
+BSP_TICKS_PER_SEC/2, BSP_TICKS_PER_SEC/2);</action>
+     <initial_glyph conn="2,3,5,1,20,4,-4">
+      <action box="0,-2,6,2"/>
+     </initial_glyph>
+    </initial>
+    <!--${AOs::Blinky::SM::off}-->
+    <state name="off">
+     <entry>BSP_ledOff();</entry>
+     <!--${AOs::Blinky::SM::off::TIMEOUT}-->
+     <tran trig="TIMEOUT" target="../../2">
+      <tran_glyph conn="2,13,3,1,18,9,-2">
+       <action box="0,-2,8,2"/>
+      </tran_glyph>
+     </tran>
+     <state_glyph node="2,5,16,10">
+      <entry box="1,2,12,4"/>
+     </state_glyph>
+    </state>
+    <!--${AOs::Blinky::SM::on}-->
+    <state name="on">
+     <entry>BSP_ledOn();</entry>
+     <!--${AOs::Blinky::SM::on::TIMEOUT}-->
+     <tran trig="TIMEOUT" target="../../1">
+      <tran_glyph conn="2,25,3,1,20,-15,-4">
+       <action box="0,-2,8,2"/>
+      </tran_glyph>
+     </tran>
+     <state_glyph node="2,17,16,10">
+      <entry box="1,2,12,4"/>
+     </state_glyph>
+    </state>
+    <state_diagram size="30,33"/>
+   </statechart>
+  </class>
+  <!--${AOs::btn}-->
+  <class name="btn" superclass="qpc::QActive">
+   <!--${AOs::btn::SM}-->
+   <statechart properties="0x00">
+    <!--${AOs::btn::SM::state}-->
+    <state name="state">
+     <!--${AOs::btn::SM::state::TIMEOUT}-->
+     <tran trig="TIMEOUT">
+      <action>poolBtn();</action>
+      <tran_glyph conn="9,18,3,-1,16">
+       <action box="0,-2,15,6"/>
+      </tran_glyph>
+     </tran>
+     <state_glyph node="9,9,24,20"/>
+    </state>
+    <state_diagram size="80,50"/>
+   </statechart>
+  </class>
+ </package>
+ <!--${.}-->
+ <directory name=".">
+  <!--${.::blinky.c}-->
+  <file name="blinky.c">
+   <text>#include &quot;qpc.h&quot;               // QP/C real-time embedded framework
+#include &quot;blinky.h&quot;            // Blinky Application interface
+#include &quot;bsp.h&quot;               // Board Support Package
+
+
+$define ${AOs::Blinky}</text>
+  </file>
+  <!--${.::blinky.h}-->
+  <file name="blinky.h">
+   <text>#ifndef BLINKY_H_
+#define BLINKY_H_
+
+enum BlinkySignals {
+    DUMMY_SIG = Q_USER_SIG,
+    MAX_PUB_SIG,          // the last published signal
+
+    TIMEOUT_SIG,
+    MAX_SIG               // the last signal
+};
+
+
+$declare ${AOs::Blinky}
+
+#endif</text>
+  </file>
+  <!--${.::btn.c}-->
+  <file name="btn.c">
+   <text>#include &quot;qpc.h&quot;               // QP/C real-time embedded framework
+#include &quot;btn.h&quot;            // 
+#include &quot;bsp.h&quot;               // Board Support Package
+
+
+$define ${AOs::btn}</text>
+  </file>
+  <!--${.::btn.h}-->
+  <file name="btn.h">
+   <text>#ifndef BTN_H_
+#define BTN_H_
+
+enum btnSignals {
+    DUMMY_SIG = Q_USER_SIG,
+    MAX_PUB_SIG,          // the last published signal
+
+    TIMEOUT_SIG,
+    MAX_SIG               // the last signal
+};
+
+
+$declare ${AOs::btn}
+
+#endif</text>
+  </file>
+ </directory>
+</model>
