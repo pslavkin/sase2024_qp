@@ -5,6 +5,8 @@ int main() {
     QF_init();
     bspInit();
     uartDrvInit();
+    initSignals();
+
 
     memInit  (   );
     uartInit ( 1 );

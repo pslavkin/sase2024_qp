@@ -12,13 +12,9 @@ Q_NORETURN Q_onError(char const *module, int_t const id) {
     QS_ASSERTION(module, id, (uint32_t)10000U);
 
 #ifndef NDEBUG
-    // light up all LEDs
-//    GPIOF_AHB->DATA_Bits[LED_GREEN | LED_RED | LED_BLUE] = 0xFFU;
-    // for debugging, hang on in an endless loop...
     for (;;) {
     }
 #endif
-
     NVIC_SystemReset();
 }
 //............................................................................
@@ -29,8 +25,8 @@ void assert_failed(char const * const module, int_t const id)
 //............................................................................
 void SysTick_Handler(void) {
     QK_ISR_ENTRY();   // inform QK about entering an ISR
-    tick++;
 
+    tick++;
     QTIMEEVT_TICK_X(0U, qsSystickHandlerPrior()); // time events at rate 0
 
     QK_ISR_EXIT();  // inform QK about exiting an ISR
@@ -77,11 +73,6 @@ void QF_onStartup(void)
 
     // set priorities of ALL ISRs used in the system, see NOTE1
     NVIC_SetPriority(SysTick_IRQn,   QF_AWARE_ISR_CMSIS_PRI + 1U);
-    // ...
-
-    // set priorities of ALL ISRs used in the system, see NOTE1
-    NVIC_SetPriority(SysTick_IRQn,   QF_AWARE_ISR_CMSIS_PRI);
-    // ...
 
     // enable IRQs...
 }

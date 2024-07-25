@@ -69,14 +69,40 @@ void uartDrvInit(void)
                     | (1U << 8U)  // UART TX enable
                     | (1U << 9U); // UART RX enable
 
-    //NVIC_SetPriority(UART0_IRQn,     QF_AWARE_ISR_CMSIS_PRI);
+    NVIC_SetPriority(UART0_IRQn,     QF_AWARE_ISR_CMSIS_PRI);
     //// configure UART interrupts (for the RX channel)
-    //UART0->IM   |= (1U << 4U) | (1U << 6U); // enable RX and RX-TO interrupt
-    //UART0->IFLS |= (0x2U << 2U);    // interrupt on RX FIFO half-full
+    UART0->IM   |= (1U << 4U) | (1U << 6U); // enable RX and RX-TO interrupt
+    UART0->IFLS |= (0x2U << 2U);            // interrupt on RX FIFO half-full
     //// NOTE: do not enable the UART0 interrupt yet. Wait till QF_onStartup()
-    //NVIC_EnableIRQ(UART0_IRQn); // UART interrupt used for QS-RX
+    NVIC_EnableIRQ(UART0_IRQn); // UART interrupt used for QS-RX
     QS_FUN_DICTIONARY(uartDrvRx);
     QS_FUN_DICTIONARY(uartDrvTxChar);
     QS_FUN_DICTIONARY(uartDrvTxString);
+}
+
+void UART0_IRQHandler(void) 
+{
+   QK_ISR_ENTRY(); // inform QK about entering an ISR
+
+    uint32_t status = UART0->RIS; // get the raw interrupt status
+    UART0->ICR = status;          // clear the asserted interrupts
+
+    ledDrvBlueToggle();
+#ifdef Q_SPY
+    uint8_t data;
+    while(uartDrvRx(&data))
+    {
+        QS_RX_PUT(data);
+    }
+#else
+    uint8_t data;
+    while(uartDrvRx(&data))
+    {
+      struct evtUint8_t* e = Q_NEW(struct evtUint8_t, KEY_SIG);
+      e->data = data;
+      QF_PUBLISH(&e->super, 0U);
+    }
+#endif
+    QK_ISR_EXIT(); // inform QK about exiting an ISR
 }
 

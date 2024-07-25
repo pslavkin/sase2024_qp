@@ -7,14 +7,11 @@ QActive* ledAo(void)
     return (QActive*)&led_inst.super;
 }
 
-// protected:
-QState led_initial(led * const me, void const * const par);
-QState led_state(led * const me, QEvt const * const e);
-
 void ledInitial(led * const me ,const void* par)
 {
    ledDrvInit();
    QTimeEvt_armX(&me->timeEvt,BSP_TICKS_PER_SEC/2, BSP_TICKS_PER_SEC/2);
+   QS_OBJ_DICTIONARY(&led_inst);
 }
 
 void ledInit(uint8_t prior)

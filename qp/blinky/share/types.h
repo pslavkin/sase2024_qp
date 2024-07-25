@@ -6,7 +6,12 @@
 struct evtString_t
 {
     QEvt super;
-    char str[32];
+    char data[32];
+};
+struct evtUint8_t
+{
+    QEvt super;
+    uint8_t data;
 };
 
 #endif

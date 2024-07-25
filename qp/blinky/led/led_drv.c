@@ -5,29 +5,14 @@
 #define LED_BLUE    (1U << 2U)
 
 //public API
-void ledDrvRed(uint8_t state) 
-{
-    GPIOF_AHB->DATA_Bits[LED_RED] = state?0xFFU:0x00U;
-//    state
-//       ? BSP_sendUart ( "led red on\r\n"  )
-//       : BSP_sendUart ( "led red off\r\n" );
-}
+void ledDrvRedToggle ( void          ) { GPIOF_AHB->DATA_Bits[LED_RED] ^= 0xFFU           ;}
+void ledDrvRed       ( uint8_t state ) { GPIOF_AHB->DATA_Bits[LED_RED] = state?0xFFU:0x00U;}
 
-void ledDrvGreen(uint8_t state) 
-{
-    GPIOF_AHB->DATA_Bits[LED_GREEN] = state?0xFFU:0x00U;
-//    state
-//       ? BSP_sendUart ( "led green on\r\n"  )
-//       : BSP_sendUart ( "led green off\r\n" );
-}
+void ledDrvGreenToggle ( void          ) { GPIOF_AHB->DATA_Bits[LED_GREEN] ^= 0xFFU           ;}
+void ledDrvGreen       ( uint8_t state ) { GPIOF_AHB->DATA_Bits[LED_GREEN] = state?0xFFU:0x00U;}
 
-void ledDrvBlue(uint8_t state) 
-{
-    GPIOF_AHB->DATA_Bits[LED_BLUE] = state?0xFFU:0x00U;
-//    state 
-//       ? BSP_sendUart ( "led blue on\r\n"  )
-//       : BSP_sendUart ( "led blue off\r\n" );
-}
+void ledDrvBlueToggle ( void          ) { GPIOF_AHB->DATA_Bits[LED_BLUE] ^= 0xFFU           ;}
+void ledDrvBlue       ( uint8_t state ) { GPIOF_AHB->DATA_Bits[LED_BLUE] = state?0xFFU:0x00U;}
 
 void ledDrvInit(void)
 {
@@ -43,6 +28,5 @@ void ledDrvInit(void)
     ledDrvRed   ( 0 );
     ledDrvGreen ( 0 );
     ledDrvBlue  ( 0 );
-//    GPIOF_AHB->DATA_Bits[LED_RED | LED_BLUE | LED_GREEN] = 0U;
 }
 

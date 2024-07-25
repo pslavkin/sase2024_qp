@@ -6,6 +6,7 @@ QP_PORT_DIR := $(QPC)/ports/arm-cm/qk/gnu
 C_SRCS := \
 		  main.c \
 		  qs/qs.c \
+		  share/signals.c \
 		  mem/mem.c \
 		  mem/pool.c \
 		  bsp/bsp.c \

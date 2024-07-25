@@ -7,7 +7,10 @@ enum psSignals {
     BTN2_SIG,
     TOUT_SIG,
     PRINT_SIG,
+    KEY_SIG,
     MAX_PUB_SIG,          // the last published signal
 };
+
+void initSignals(void);
 
 #endif

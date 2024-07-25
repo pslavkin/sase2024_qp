@@ -67,6 +67,24 @@ QState uart_idle(uart * const me, QEvt const * const e) {
             status_ = Q_HANDLED();
             break;
         }
+        //${AOs::uart::SM::idle::KEY}
+        case KEY_SIG: {
+            uartEcho(me,e);
+            //${AOs::uart::SM::idle::KEY::[uartGetKey(me,e)=='1']}
+            if (uartGetKey(me,e)=='1') {
+                uartPrint1(me,e);
+                status_ = Q_HANDLED();
+            }
+            //${AOs::uart::SM::idle::KEY::[uartGetKey(me,e)=='2']}
+            else if (uartGetKey(me,e)=='2') {
+                uartPrint2(me,e);
+                status_ = Q_HANDLED();
+            }
+            else {
+                status_ = Q_UNHANDLED();
+            }
+            break;
+        }
         default: {
             status_ = Q_SUPER(&QHsm_top);
             break;

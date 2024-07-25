@@ -11,16 +11,35 @@ QActive* uartAo(void)
 void uartPrint(uart * const me, QEvt const * const e) 
 {
    struct evtString_t* s = (struct evtString_t*)e;
-   uartDrvTxString(s->str);
+   uartDrvTxString(s->data);
 }
 
+uint8_t uartGetKey(uart * const me , QEvt const * const e)
+{
+   struct evtUint8_t *c = (struct evtUint8_t*)e;
+   return c->data;
+}
+void uartEcho(uart * const me , QEvt const * const e)
+{
+   struct evtUint8_t *c = (struct evtUint8_t*)e;
+   uartDrvTxChar(c->data);
+}
+void uartPrint1(uart * const me , QEvt const * const e)
+{
+   uartDrvTxString("llego 1\r\n");
+}
+void uartPrint2(uart * const me , QEvt const * const e)
+{
+   uartDrvTxString("llego 2\r\n");
+}
 void uartInitial(uart * const me ,const void* par)
 {
-//   uartDrvInit();
    QActive_subscribe ( &me->super,PRINT_SIG );
+   QActive_subscribe ( &me->super,KEY_SIG );
    QTimeEvt_armX(&me->timeEvt,BSP_TICKS_PER_SEC/2, BSP_TICKS_PER_SEC/2);
-   QS_OBJ_DICTIONARY(uartPoolRx);
-   QS_OBJ_DICTIONARY(uartPrint);
+   QS_OBJ_DICTIONARY(&uart_inst);
+   QS_FUN_DICTIONARY(uartPoolRx);
+   QS_FUN_DICTIONARY(uartPrint);
 }
 void uartPoolRx(uart * const me ,QEvt const * const e)
 {

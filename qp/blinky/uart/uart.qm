@@ -34,7 +34,30 @@
        <action box="0,-2,19,6"/>
       </tran_glyph>
      </tran>
-     <state_glyph node="15,9,39,28"/>
+     <!--${AOs::uart::SM::idle::KEY}-->
+     <tran trig="KEY">
+      <action>uartEcho(me,e);</action>
+      <!--${AOs::uart::SM::idle::KEY::[uartGetKey(me,e)=='1']}-->
+      <choice>
+       <guard>uartGetKey(me,e)=='1'</guard>
+       <action>uartPrint1(me,e);</action>
+       <choice_glyph conn="29,32,5,-1,12">
+        <action box="1,0,18,5"/>
+       </choice_glyph>
+      </choice>
+      <!--${AOs::uart::SM::idle::KEY::[uartGetKey(me,e)=='2']}-->
+      <choice>
+       <guard>uartGetKey(me,e)=='2'</guard>
+       <action>uartPrint2(me,e);</action>
+       <choice_glyph conn="29,32,4,-1,7,11">
+        <action box="1,7,16,5"/>
+       </choice_glyph>
+      </choice>
+      <tran_glyph conn="15,32,3,-1,14">
+       <action box="0,-2,16,5"/>
+      </tran_glyph>
+     </tran>
+     <state_glyph node="15,9,39,38"/>
     </state>
     <state_diagram size="95,50"/>
    </statechart>

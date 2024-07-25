@@ -11,12 +11,15 @@ void btnInitial(btn * const me ,const void* par)
 {
    btnDrvInit();
    QTimeEvt_armX(&me->timeEvt,BSP_TICKS_PER_SEC/2, BSP_TICKS_PER_SEC/2);
+   QS_OBJ_DICTIONARY(&btn_inst);
+   QS_FUN_DICTIONARY(btn1Entry);
+   QS_FUN_DICTIONARY(btn2Entry);
 }
 
 void btn1Entry(btn * const me ,const void* par)
 {
    struct evtString_t *s = Q_NEW(struct evtString_t, PRINT_SIG);
-   strcpy(s->str, "btn1 \r\n");
+   strcpy(s->data, "btn1 \r\n");
    QACTIVE_PUBLISH( &s->super, &me->super );
    //QACTIVE_POST(uartAo() , &s->super, 0U);
 }
@@ -24,7 +27,7 @@ void btn1Entry(btn * const me ,const void* par)
 void btn2Entry(btn * const me ,const void* par)
 {
    struct evtString_t *s = Q_NEW(struct evtString_t, PRINT_SIG);
-   strcpy(s->str, "btn2 \r\n");
+   strcpy(s->data, "btn2 \r\n");
    QACTIVE_PUBLISH( &s->super, &me->super );
    //QACTIVE_POST(uartAo() , &s->super, 0U);
 }
