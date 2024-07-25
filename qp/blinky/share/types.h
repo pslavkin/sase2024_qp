@@ -1,7 +1,7 @@
 #ifndef TYPES_H
 #define TYPES_H
 
-#include "inc.h"
+#include "all.h"
 
 struct evtString_t
 {

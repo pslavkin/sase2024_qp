@@ -1,7 +1,7 @@
 #ifndef BTN
 #define BTN
 
-#include "inc.h"
+#include "all.h"
 
 QActive* btnAo ( void );
 void btnInit    ( uint8_t prior                   );

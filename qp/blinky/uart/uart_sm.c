@@ -28,7 +28,7 @@
 // <info@state-machine.com>
 //
 //$endhead${.::uart_sm.c} ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-#include "inc.h"
+#include "all.h"
 
 //$skip${QP_VERSION} vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 // Check for the minimum required QP version
@@ -45,6 +45,9 @@
 QState uart_initial(uart * const me, void const * const par) {
     //${AOs::uart::SM::initial}
     uartInitial(me,par);
+
+    QS_FUN_DICTIONARY(&uart_idle);
+
     return Q_TRAN(&uart_idle);
 }
 

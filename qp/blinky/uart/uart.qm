@@ -10,7 +10,7 @@
    <!--${AOs::uart::timeEvt}-->
    <attribute name="timeEvt" type="QTimeEvt" visibility="0x02" properties="0x00"/>
    <!--${AOs::uart::SM}-->
-   <statechart properties="0x00">
+   <statechart properties="0x02">
     <!--${AOs::uart::SM::initial}-->
     <initial target="../1">
      <action>uartInitial(me,par);</action>
@@ -44,7 +44,7 @@
  <directory name=".">
   <!--${.::uart_sm.c}-->
   <file name="uart_sm.c">
-   <text>#include &quot;inc.h&quot;
+   <text>#include &quot;all.h&quot;
 
 $define ${AOs::uart}</text>
   </file>

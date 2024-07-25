@@ -1,9 +1,10 @@
-#include "inc.h"
+#include "all.h"
 
 //............................................................................
 int main() {
     QF_init();
     bspInit();
+    uartDrvInit();
 
     memInit  (   );
     uartInit ( 1 );

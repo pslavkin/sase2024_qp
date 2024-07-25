@@ -1,4 +1,4 @@
-#include "inc.h"
+#include "all.h"
 
 #define LED_RED     (1U << 1U)
 #define LED_GREEN   (1U << 3U)

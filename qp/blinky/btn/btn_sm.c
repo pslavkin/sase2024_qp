@@ -28,7 +28,7 @@
 // <info@state-machine.com>
 //
 //$endhead${.::btn_sm.c} ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-#include "inc.h"
+#include "all.h"
 
 //$skip${QP_VERSION} vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 // Check for the minimum required QP version
@@ -45,6 +45,11 @@
 QState btn_initial(btn * const me, void const * const par) {
     //${AOs::btn::SM::initial}
     btnInitial(me,par);
+
+    QS_FUN_DICTIONARY(&btn_idle);
+    QS_FUN_DICTIONARY(&btn_btn1);
+    QS_FUN_DICTIONARY(&btn_btn2);
+
     return Q_TRAN(&btn_idle);
 }
 

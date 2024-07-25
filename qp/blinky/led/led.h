@@ -1,7 +1,7 @@
 #ifndef LED
 #define LED
 
-#include "inc.h"
+#include "all.h"
 
 QActive* ledAo(void);
 void ledPool    ( void                            );

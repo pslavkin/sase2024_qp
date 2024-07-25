@@ -1,4 +1,4 @@
-#include "inc.h"
+#include "all.h"
 
 led led_inst;
 

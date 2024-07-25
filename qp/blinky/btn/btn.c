@@ -1,10 +1,10 @@
-#include "inc.h"
+#include "all.h"
 
 btn btn_inst;
 
 QActive* btnAo(void)
 {
-    return (QActive*)&btn_inst.super;
+   return (QActive*)&btn_inst.super;
 }
 
 void btnInitial(btn * const me ,const void* par)
@@ -17,7 +17,7 @@ void btn1Entry(btn * const me ,const void* par)
 {
    struct evtString_t *s = Q_NEW(struct evtString_t, PRINT_SIG);
    strcpy(s->str, "btn1 \r\n");
-   QACTIVE_PUBLISH( &s->super, NULL );
+   QACTIVE_PUBLISH( &s->super, &me->super );
    //QACTIVE_POST(uartAo() , &s->super, 0U);
 }
 
@@ -25,7 +25,7 @@ void btn2Entry(btn * const me ,const void* par)
 {
    struct evtString_t *s = Q_NEW(struct evtString_t, PRINT_SIG);
    strcpy(s->str, "btn2 \r\n");
-   QACTIVE_PUBLISH( &s->super, NULL );
+   QACTIVE_PUBLISH( &s->super, &me->super );
    //QACTIVE_POST(uartAo() , &s->super, 0U);
 }
 

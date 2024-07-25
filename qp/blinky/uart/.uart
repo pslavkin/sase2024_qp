@@ -9,9 +9,9 @@
   <item name="backups">0</item>
  </group>
  <group name="windows">
-  <item id="AOs::uart::SM">0,0,838,393,*</item>
-  <item id=".::uart_sm.c">0,0,596,300</item>
-  <item id=".::uart_sm.h">242,93,596,300</item>
+  <item id="AOs::uart::SM">-372,0,838,393</item>
+  <item id=".::uart_sm.c">0,0,922,283,*</item>
+  <item id=".::uart_sm.h">-130,0,596,300</item>
  </group>
  <group name="search">
   <item name="options">2032128</item>

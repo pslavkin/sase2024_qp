@@ -28,7 +28,7 @@
 // <info@state-machine.com>
 //
 //$endhead${.::led_sm.c} ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-#include "inc.h"
+#include "all.h"
 
 
 //$skip${QP_VERSION} vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
@@ -46,6 +46,10 @@
 QState led_initial(led * const me, void const * const par) {
     //${AOs::led::SM::initial}
     ledInitial(me,par);
+
+    QS_FUN_DICTIONARY(&led_on);
+    QS_FUN_DICTIONARY(&led_off);
+
     return Q_TRAN(&led_on);
 }
 

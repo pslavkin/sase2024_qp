@@ -11,8 +11,8 @@
 #include "mem/mem.h"
 #include "mem/pool.h"
 #include "bsp/bsp.h"
-#include "bsp/signals.h"
-#include "bsp/types.h"
+#include "share/signals.h"
+#include "share/types.h"
 
 //system
 #include <stdint.h>

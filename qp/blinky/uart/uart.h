@@ -1,7 +1,7 @@
 #ifndef UART
 #define UART
 
-#include "inc.h"
+#include "all.h"
 
 QActive* uartAo ( void );
 void uartInitial ( uart * const me ,const void* par      );

@@ -1,4 +1,4 @@
-#include "inc.h"
+#include "all.h"
 
 
 uart uart_inst;
@@ -11,14 +11,16 @@ QActive* uartAo(void)
 void uartPrint(uart * const me, QEvt const * const e) 
 {
    struct evtString_t* s = (struct evtString_t*)e;
-   uartDrvTx(s->str);
+   uartDrvTxString(s->str);
 }
 
 void uartInitial(uart * const me ,const void* par)
 {
-   uartDrvInit();
+//   uartDrvInit();
    QActive_subscribe ( &me->super,PRINT_SIG );
    QTimeEvt_armX(&me->timeEvt,BSP_TICKS_PER_SEC/2, BSP_TICKS_PER_SEC/2);
+   QS_OBJ_DICTIONARY(uartPoolRx);
+   QS_OBJ_DICTIONARY(uartPrint);
 }
 void uartPoolRx(uart * const me ,QEvt const * const e)
 {

@@ -20,11 +20,11 @@ C_SRCS := \
 		  system_TM4C123GH6PM.c \
 		  startup_TM4C123GH6PM.c
 
-OUTPUT    := $(PROJECT)
-LD_SCRIPT := bsp/linker.ld
+OUTPUT	  := $(PROJECT)
+LD_SCRIPT := linker/linker.ld
 
 # defines...
-DEFINES   := -DTARGET_IS_TM4C123_RB1
+DEFINES   := -DTARGET_IS_TM4C123_RB1 -DQ_SPY
 # ARM CPU, ARCH, FPU, and Float-ABI types...
 # ARM_CPU:	 [cortex-m0 | cortex-m0plus | cortex-m1 | cortex-m3 | cortex-m4]
 # ARM_FPU:	 [ | vfp]
@@ -50,9 +50,7 @@ C_SRCS += \
 	qf_qmact.c \
 	qf_time.c \
 	qk.c \
-	qk_port.c
-
-QS_SRCS := \
+	qk_port.c \
 	qs.c \
 	qs_rx.c \
 	qs_fp.c \
@@ -64,9 +62,10 @@ VPATH	 += $(QPC)/src/qf  \
 			$(QP_PORT_DIR) \
 			$(QPC)/3rd_party/ek-tm4c123gxl \
 			$(QPC)/3rd_party/ek-tm4c123gxl/gnu \
+			$(QPC)/src/qs \
 
 INCLUDES += -I. \
-			-Ibsp/ \
+			-I./share \
 			-I$(QPC)/include \
 			-I$(QPC)/src	 \
 			-I$(QP_PORT_DIR) \
@@ -100,38 +99,9 @@ RM	  := rm
 #
 
 # combine all the sources...
-C_SRCS += $(QP_SRCS)
+C_SRCS	 += $(QP_SRCS)
 ASM_SRCS += $(QP_ASMS)
-
-ifeq (rel, $(CONF)) # Release configuration ..................................
-
-BIN_DIR := build_rel
-# gcc options:
-CFLAGS	= -c -O3 -fno-pie -std=c11 -pedantic -Wall -Wextra -W \
-	$(INCLUDES) $(DEFINES) -DNDEBUG
-
-CPPFLAGS = -c -O3 -fno-pie -std=c++11 -pedantic -Wall -Wextra \
-	-fno-rtti -fno-exceptions \
-	$(INCLUDES) $(DEFINES) -DNDEBUG
-
-else ifeq (spy, $(CONF))  # Spy configuration ................................
-
-BIN_DIR := build_spy
-
-C_SRCS	 += $(QS_SRCS)
-VPATH	 += $(QPC)/src/qs
-
-# gcc options:
-CFLAGS	= -c -g -O -fno-pie -std=c11 -pedantic -Wall -Wextra -W \
-	$(INCLUDES) $(DEFINES) -DQ_SPY
-
-CPPFLAGS = -c -g -O -fno-pie -std=c++11 -pedantic -Wall -Wextra \
-	-fno-rtti -fno-exceptions \
-	$(INCLUDES) $(DEFINES) -DQ_SPY
-
-else # default Debug configuration .........................................
-
-BIN_DIR := build
+BIN_DIR  := build
 
 ASFLAGS = -g $(ARM_CPU) $(ARM_FPU) $(ASM_CPU) $(ASM_FPU)
 
@@ -143,18 +113,17 @@ CPPFLAGS = -c -g $(ARM_CPU) $(ARM_FPU) $(FLOAT_ABI) -mthumb -Wall \
 	-ffunction-sections -fdata-sections -fno-rtti -fno-exceptions \
 	-O $(INCLUDES) $(DEFINES)
 
-endif # .....................................................................
-
 LINKFLAGS = -T$(LD_SCRIPT) $(ARM_CPU) $(ARM_FPU) $(FLOAT_ABI) -mthumb \
 	-specs=nosys.specs -specs=nano.specs \
 	-Wl,-Map,$(BIN_DIR)/$(OUTPUT).map,--cref,--gc-sections $(LIB_DIRS)
 
 
-ASM_OBJS     := $(patsubst %.s,%.o,  $(ASM_SRCS))
+ASM_OBJS	 := $(patsubst %.s,%.o,  $(ASM_SRCS))
 C_OBJS		 := $(patsubst %.c,%.o,   $(C_SRCS))
 CPP_OBJS	 := $(patsubst %.cpp,%.o, $(CPP_SRCS))
 
-TARGET_ELF   := $(BIN_DIR)/$(OUTPUT).elf
+TARGET_ELF	 := $(BIN_DIR)/$(OUTPUT).elf
+TARGET_BIN   := $(BIN_DIR)/$(OUTPUT).bin
 ASM_OBJS_EXT := $(addprefix $(BIN_DIR)/, $(ASM_OBJS))
 C_OBJS_EXT	 := $(addprefix $(BIN_DIR)/, $(C_OBJS))
 C_DEPS_EXT	 := $(patsubst %.o,%.d, $(C_OBJS_EXT))
@@ -170,7 +139,11 @@ endif
 # rules
 #
 
-all: $(TARGET_ELF)
+all: $(TARGET_BIN)
+
+$(TARGET_BIN): $(TARGET_ELF)
+	$(BIN) -O binary $< $@
+
 
 $(TARGET_ELF) : $(ASM_OBJS_EXT) $(C_OBJS_EXT) $(CPP_OBJS_EXT)
 	$(CC) $(CFLAGS) $(QPC)/src/qs/qstamp.c -o $(BIN_DIR)/qstamp.o

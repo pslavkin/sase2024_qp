@@ -10,7 +10,7 @@
    <!--${AOs::btn::timeEvt}-->
    <attribute name="timeEvt" type="QTimeEvt" visibility="0x02" properties="0x00"/>
    <!--${AOs::btn::SM}-->
-   <statechart properties="0x00">
+   <statechart properties="0x02">
     <!--${AOs::btn::SM::initial}-->
     <initial target="../1">
      <action>btnInitial(me,par);</action>
@@ -87,7 +87,7 @@
  <directory name=".">
   <!--${.::btn_sm.c}-->
   <file name="btn_sm.c">
-   <text>#include &quot;inc.h&quot;
+   <text>#include &quot;all.h&quot;
 
 $define ${AOs::btn}</text>
   </file>

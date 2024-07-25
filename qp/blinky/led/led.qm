@@ -10,7 +10,7 @@
    <!--${AOs::led::timeEvt}-->
    <attribute name="timeEvt" type="QTimeEvt" visibility="0x02" properties="0x00"/>
    <!--${AOs::led::SM}-->
-   <statechart properties="0x00">
+   <statechart properties="0x02">
     <!--${AOs::led::SM::initial}-->
     <initial target="../1">
      <action>ledInitial(me,par);</action>
@@ -48,7 +48,7 @@
  <directory name=".">
   <!--${.::led_sm.c}-->
   <file name="led_sm.c">
-   <text>#include &quot;inc.h&quot;
+   <text>#include &quot;all.h&quot;
 
 
 $define ${AOs::led}</text>
