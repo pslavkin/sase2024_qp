@@ -2,8 +2,10 @@ target remote localhost:3333
 set disassemble-next-line on
 set logging enabled on
 monitor halt
-load ../examples/blinky/qk/gnu/dbg/blinky-qk.elf
-file ../examples/blinky/qk/gnu/dbg/blinky-qk.elf
+load ../blinky/build/blinky.elf
+file ../blinky/build/blinky.elf
+#load ../examples/blinky/qk/gnu/dbg/blinky-qk.elf
+#file ../examples/blinky/qk/gnu/dbg/blinky-qk.elf
 #load ../examples/blinky/qv/gnu/dbg/blinky-qv.elf
 #file ../examples/blinky/qv/gnu/dbg/blinky-qv.elf
 b main

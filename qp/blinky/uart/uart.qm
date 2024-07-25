@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model version="6.1.1" links="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.state-machine.com/qm/qm.xsd">
+ <documentation>Blinky example</documentation>
+ <!--${qpc}-->
+ <framework name="qpc"/>
+ <!--${AOs}-->
+ <package name="AOs" stereotype="0x02">
+  <!--${AOs::uart}-->
+  <class name="uart" superclass="qpc::QActive">
+   <!--${AOs::uart::timeEvt}-->
+   <attribute name="timeEvt" type="QTimeEvt" visibility="0x02" properties="0x00"/>
+   <!--${AOs::uart::SM}-->
+   <statechart properties="0x00">
+    <!--${AOs::uart::SM::initial}-->
+    <initial target="../1">
+     <action>uartInitial(me,par);</action>
+     <initial_glyph conn="9,2,5,0,12,7">
+      <action box="0,-2,12,5"/>
+     </initial_glyph>
+    </initial>
+    <!--${AOs::uart::SM::idle}-->
+    <state name="idle">
+     <!--${AOs::uart::SM::idle::TOUT}-->
+     <tran trig="TOUT">
+      <action>uartPoolRx(me,e);</action>
+      <tran_glyph conn="15,18,3,-1,16">
+       <action box="0,-2,15,6"/>
+      </tran_glyph>
+     </tran>
+     <!--${AOs::uart::SM::idle::PRINT}-->
+     <tran trig="PRINT">
+      <action>uartPrint(me,e);</action>
+      <tran_glyph conn="15,26,3,-1,19">
+       <action box="0,-2,19,6"/>
+      </tran_glyph>
+     </tran>
+     <state_glyph node="15,9,39,28"/>
+    </state>
+    <state_diagram size="95,50"/>
+   </statechart>
+  </class>
+ </package>
+ <!--${.}-->
+ <directory name=".">
+  <!--${.::uart_sm.c}-->
+  <file name="uart_sm.c">
+   <text>#include &quot;inc.h&quot;
+
+$define ${AOs::uart}</text>
+  </file>
+  <!--${.::uart_sm.h}-->
+  <file name="uart_sm.h">
+   <text>#ifndef UART_SM
+#define UART_SM
+
+$declare ${AOs::uart}
+
+#endif</text>
+  </file>
+ </directory>
+</model>
