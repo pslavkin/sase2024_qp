@@ -1,4 +1,5 @@
 #include "qpc.h"
+#include "qs/qs.h"
 #include "btn/btn_sm.h"
 #include "btn/btn_drv.h"
 #include "btn/btn.h"

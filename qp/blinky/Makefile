@@ -5,6 +5,7 @@ QP_PORT_DIR := $(QPC)/ports/arm-cm/qk/gnu
 # C source files...
 C_SRCS := \
 		  main.c \
+		  qs/qs.c \
 		  mem/mem.c \
 		  mem/pool.c \
 		  bsp/bsp.c \
@@ -24,7 +25,10 @@ OUTPUT	  := $(PROJECT)
 LD_SCRIPT := linker/linker.ld
 
 # defines...
-DEFINES   := -DTARGET_IS_TM4C123_RB1 -DQ_SPY
+DEFINES   := -DTARGET_IS_TM4C123_RB1 
+ifeq (spy, $(CONF)) # Release configuration ..................................
+DEFINES   := -DQ_SPY
+endif
 # ARM CPU, ARCH, FPU, and Float-ABI types...
 # ARM_CPU:	 [cortex-m0 | cortex-m0plus | cortex-m1 | cortex-m3 | cortex-m4]
 # ARM_FPU:	 [ | vfp]
@@ -51,10 +55,13 @@ C_SRCS += \
 	qf_time.c \
 	qk.c \
 	qk_port.c \
+
+ifeq (spy, $(CONF))
+C_SRCS += \
 	qs.c \
 	qs_rx.c \
-	qs_fp.c \
-	#
+	qs_fp.c
+endif
 
 # Typically you should not need to change anything below this line
 VPATH	 += $(QPC)/src/qf  \

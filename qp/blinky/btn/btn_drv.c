@@ -14,6 +14,7 @@ static bool btn2(void)
 }
 void btnDrvPool(void)
 {
+
 //   char key = BSP_rcvUart();
 //   if(key == '1')
 //   {
