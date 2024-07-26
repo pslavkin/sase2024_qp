@@ -1,6 +1,6 @@
-#ifdef Q_SPY
-
 #include "all.h"
+
+#ifdef Q_SPY
 
 static QSpyId const l_SysTick_Handler = { 0U };
 
@@ -9,17 +9,18 @@ QSpyId const * qsSystickHandlerPrior(void)
     return &l_SysTick_Handler;
 }
 
-void qsInit(void) 
+void qsInit(char* argv) 
 {
-    QS_onStartup(NULL); 
+    QS_onStartup(argv); 
     // setup the QS filters...
     QS_GLB_FILTER(-QS_ALL_RECORDS);   // all records
-    QS_GLB_FILTER(QS_SM_RECORDS);
+    QS_GLB_FILTER(-QS_SM_RECORDS);
     QS_GLB_FILTER(QS_QF_PUBLISH);
     QS_GLB_FILTER(QS_AO_RECORDS);
     QS_GLB_FILTER(QS_QF_RECORDS);
     QS_GLB_FILTER(QS_OBJ_DICT);
     QS_GLB_FILTER(QS_FUN_DICT);
+    QS_GLB_FILTER(QS_U0_RECORDS);
 
     QS_GLB_FILTER(-QS_QF_ACTIVE_GET_LAST);
     QS_GLB_FILTER(-QS_QF_ACTIVE_GET);

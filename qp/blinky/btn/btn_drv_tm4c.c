@@ -14,20 +14,6 @@ static bool btn2(void)
 }
 void btnDrvPool(void)
 {
-
-//   char key = BSP_rcvUart();
-//   if(key == '1')
-//   {
-//      BSP_sendUart("key 1 \r\n");
-//      QEvt *pe = Q_NEW(QEvt, BTN1_SIG);
-//      QACTIVE_POST(&Blinky_inst.super , pe, 0U);
-//   }
-//   if(key == '2')
-//   {
-//      BSP_sendUart("key 2 \r\n");
-//      QEvt *pe = Q_NEW(QEvt, BTN2_SIG);
-//      QACTIVE_POST(&Blinky_inst.super , pe, 0U);
-//   }
    if(btn1())
    {
       QEvt *pe = Q_NEW(QEvt, BTN1_SIG);

@@ -50,7 +50,7 @@
        <guard>uartGetKey(me,e)=='2'</guard>
        <action>uartPrint2(me,e);</action>
        <choice_glyph conn="29,32,4,-1,7,11">
-        <action box="1,7,16,5"/>
+        <action box="1,7,20,5"/>
        </choice_glyph>
       </choice>
       <tran_glyph conn="15,32,3,-1,14">

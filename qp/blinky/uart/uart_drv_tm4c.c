@@ -71,7 +71,8 @@ void uartDrvInit(void)
 
     NVIC_SetPriority(UART0_IRQn,     QF_AWARE_ISR_CMSIS_PRI);
     //// configure UART interrupts (for the RX channel)
-    UART0->IM   |= (1U << 4U) | (1U << 6U); // enable RX and RX-TO interrupt
+    UART0->IM   |= (1U << 6U); // enable RX only
+    //UART0->IM   |= (1U << 4U) | (1U << 6U); // enable RX and RX-TO interrupt
     UART0->IFLS |= (0x2U << 2U);            // interrupt on RX FIFO half-full
     //// NOTE: do not enable the UART0 interrupt yet. Wait till QF_onStartup()
     NVIC_EnableIRQ(UART0_IRQn); // UART interrupt used for QS-RX

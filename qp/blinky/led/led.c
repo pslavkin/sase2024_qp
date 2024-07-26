@@ -9,9 +9,12 @@ QActive* ledAo(void)
 
 void ledInitial(led * const me ,const void* par)
 {
+   (void)par;
+
+   QS_OBJ_DICTIONARY(&led_inst);
+   QS_OBJ_DICTIONARY(&me->timeEvt);
    ledDrvInit();
    QTimeEvt_armX(&me->timeEvt,BSP_TICKS_PER_SEC/2, BSP_TICKS_PER_SEC/2);
-   QS_OBJ_DICTIONARY(&led_inst);
 }
 
 void ledInit(uint8_t prior)

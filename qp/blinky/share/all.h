@@ -1,17 +1,12 @@
 #include "qpc.h"
-#include "qs/qs.h"
 #include "btn/btn_sm.h"
-#include "btn/btn_drv.h"
 #include "btn/btn.h"
 #include "led/led_sm.h"
-#include "led/led_drv.h"
 #include "led/led.h"
 #include "uart/uart_sm.h"
-#include "uart/uart_drv.h"
 #include "uart/uart.h"
 #include "mem/mem.h"
 #include "mem/pool.h"
-#include "bsp/bsp.h"
 #include "share/signals.h"
 #include "share/types.h"
 
@@ -26,7 +21,22 @@
 
 
 //plaform specific
+#ifdef POSIX
+#include "qs/qs_posix.h"
+#include "bsp/bsp_posix.h"
+#include "uart/uart_drv_posix.h"
+#include "btn/btn_drv_posix.h"
+#include "led/led_drv_posix.h"
+#endif
+
+#ifdef TM4C
+#include "qs/qs_tm4c.h"
+#include "bsp/bsp_tm4c.h"
+#include "btn/btn_drv_tm4c.h"
+#include "led/led_drv_tm4c.h"
+#include "uart/uart_drv_tm4c.h"
 #include "TM4C123GH6PM.h" // the device specific header (TI)
 #include "rom.h"          // the built-in ROM functions (TI)
 #include "sysctl.h"       // system control driver (TI)
 #include "gpio.h"         // GPIO driver (TI)
+#endif

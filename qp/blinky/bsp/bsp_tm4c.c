@@ -37,7 +37,7 @@ uint32_t bspGetTick(void)
    return tick;
 }
 
-void bspInit(void) 
+void bspInit(char* argv)
 {
     // Configure the MPU to prevent NULL-pointer dereferencing ...
     MPU->RBAR = 0x0U                          // base address (NULL)
@@ -58,7 +58,7 @@ void bspInit(void)
     // but SystemCoreClock needs to be updated
     SystemCoreClockUpdate();
 #ifdef Q_SPY
-    qsInit();
+    qsInit(argv);
 #endif
 }
 

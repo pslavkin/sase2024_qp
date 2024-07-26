@@ -5,7 +5,7 @@ QP_PORT_DIR := $(QPC)/ports/arm-cm/qk/gnu
 # C source files...
 C_SRCS := \
 		  main.c \
-		  qs/qs_tm4c.c \
+		  qs/qs.c \
 		  share/signals.c \
 		  mem/mem.c \
 		  mem/pool.c \
@@ -26,11 +26,9 @@ OUTPUT	  := $(PROJECT)
 LD_SCRIPT := linker/linker.ld
 
 # defines...
-DEFINES   := -DTARGET_IS_TM4C123_RB1 \
-			 -DTM4C
-
+DEFINES   := -DTARGET_IS_TM4C123_RB1  -DTM4C
 ifeq (spy, $(CONF)) # Release configuration ..................................
-DEFINES   += -DQ_SPY
+DEFINES   := -DQ_SPY
 endif
 # ARM CPU, ARCH, FPU, and Float-ABI types...
 # ARM_CPU:	 [cortex-m0 | cortex-m0plus | cortex-m1 | cortex-m3 | cortex-m4]
