@@ -9,8 +9,9 @@
   <item name="backups">0</item>
  </group>
  <group name="windows">
-  <item id="AOs::btn::SM">0,0,838,393</item>
-  <item id=".::btn_sm.c">0,0,838,393,*</item>
+  <item id="AOs::btn::SM">-120,0,838,393</item>
+  <item id=".::btn_sm.c">0,44,838,393</item>
+  <item id=".::btn_sm.h">0,0,718,412,*</item>
  </group>
  <group name="search">
   <item name="options">2032128</item>

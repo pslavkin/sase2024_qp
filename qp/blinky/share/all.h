@@ -29,6 +29,18 @@
 #include "led/led_drv_posix.h"
 #endif
 
+#ifdef LPC
+#include "qs/qs_lpc.h"
+#include "bsp/bsp_lpc.h"
+#include "btn/btn_drv_lpc.h"
+#include "led/led_drv_lpc.h"
+#include "uart/uart_drv_lpc.h"
+#include "uart/uart_drv_lpc.h"
+#include "cmsis.h"
+#include "chip.h"
+#include "board.h"
+#endif
+
 #ifdef TM4C
 #include "qs/qs_tm4c.h"
 #include "bsp/bsp_tm4c.h"

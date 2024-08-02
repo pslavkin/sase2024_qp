@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model version="6.1.1" links="0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.state-machine.com/qm/qm.xsd">
+ <framework name="qpc"/>
+ <package name="AOs" stereotype="0x05">
+  <class name="ao" superclass="qpc::QMActive">
+   <statechart properties="0x00">
+    <initial target="../1/2">
+     <action>init(me,par);</action>
+     <initial_glyph conn="25,3,5,0,10,8">
+      <action box="0,-2,15,5"/>
+     </initial_glyph>
+    </initial>
+    <state name="state3">
+     <tran trig="SIG3">
+      <action>tout(me,e);</action>
+      <tran_glyph conn="14,31,3,-1,10">
+       <action box="0,-2,14,5"/>
+      </tran_glyph>
+     </tran>
+     <tran trig="TRIG" target="../../2" cpref="../../4/0">
+      <tran_glyph conn="24,42,2,0,1,9,2">
+       <action box="0,-2,10,2"/>
+      </tran_glyph>
+     </tran>
+     <state name="state1">
+      <entry>state1Entry(me);</entry>
+      <exit>state1Exit(me);</exit>
+      <tran trig="SIG1" target="../../3">
+       <action>sig1(me,e);</action>
+       <tran_glyph conn="46,18,1,3,10">
+        <action box="0,-2,14,5"/>
+       </tran_glyph>
+      </tran>
+      <state_glyph node="26,11,20,15">
+       <entry box="1,2,15,5"/>
+       <exit box="1,7,14,5"/>
+      </state_glyph>
+     </state>
+     <state name="state2">
+      <entry>state2Entry(me);</entry>
+      <exit>state2Exit(me);</exit>
+      <tran trig="SIG2">
+       <action>sig2(me,e);</action>
+       <choice target="../../../2">
+        <guard>compare(me,e)==0</guard>
+        <action>accepted(me,e);</action>
+        <choice_glyph conn="49,32,5,2,-15,-6">
+         <action box="-14,-2,16,5"/>
+        </choice_glyph>
+       </choice>
+       <choice target="../../../2">
+        <guard>else</guard>
+        <action>notAccepted(me,e);</action>
+        <choice_glyph conn="49,32,4,2,5,-21,-11">
+         <action box="-18,3,17,5"/>
+        </choice_glyph>
+       </choice>
+       <tran_glyph conn="65,26,2,-1,6,-16">
+        <action box="-11,4,12,5"/>
+       </tran_glyph>
+      </tran>
+      <state_glyph node="56,11,17,15">
+       <entry box="1,2,16,5"/>
+       <exit box="1,7,15,5"/>
+      </state_glyph>
+     </state>
+     <state_glyph node="14,6,62,36"/>
+    </state>
+    <smstate name="state" submachine="../4">
+     <xpseg xpref="../../4/1" target="../../3" cpref="../../4/0">
+      <xpseg_glyph conn="34,53,2,0,2,10,-11,10,3">
+       <action box="1,0,10,2"/>
+      </xpseg_glyph>
+     </xpseg>
+     <smstate_glyph node="24,46,15,7"/>
+    </smstate>
+    <smstate name="state" submachine="../4">
+     <xpseg xpref="../../4/1" target="../../1">
+      <xpseg_glyph conn="55,55,2,2,3,14,-16">
+       <action box="1,0,10,2"/>
+      </xpseg_glyph>
+     </xpseg>
+     <smstate_glyph node="47,48,12,7"/>
+    </smstate>
+    <submachine name="sub">
+     <epseg name="EP" target="../2">
+      <epseg_glyph conn="23,2,0,0,8">
+       <name box="1,3,10,2"/>
+       <action box="1,0,10,2"/>
+      </epseg_glyph>
+     </epseg>
+     <xp name="XP">
+      <xp_glyph point="24,31,2">
+       <name box="1,-2,10,2"/>
+      </xp_glyph>
+     </xp>
+     <state name="state">
+      <tran trig="TRIG" target="../.." cpref="../../1">
+       <tran_glyph conn="24,23,2,2,7">
+        <action box="0,3,10,2"/>
+       </tran_glyph>
+      </tran>
+      <state_glyph node="17,10,13,13"/>
+     </state>
+     <submachine_diagram size="34,29"/>
+    </submachine>
+    <state_diagram size="80,60"/>
+   </statechart>
+  </class>
+ </package>
+ <directory name=".">
+  <file name="blinky.c">
+   <text>#include &quot;all.h&quot;
+
+
+$define ${AOs::ao}</text>
+  </file>
+  <file name="blinky.h">
+   <text>#ifndef LED_SM
+#define LED_SM
+
+$declare ${AOs::ao}
+
+#endif</text>
+  </file>
+ </directory>
+</model>

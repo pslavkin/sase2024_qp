@@ -7,7 +7,6 @@ void qsInit(char* argv)
     QS_onStartup(argv); 
    // setup the QS filters...
     QS_GLB_FILTER(-QS_ALL_RECORDS);   // all records
-    QS_GLB_FILTER(-QS_SM_RECORDS);
     QS_GLB_FILTER(QS_QF_PUBLISH);
     QS_GLB_FILTER(QS_AO_RECORDS);
     QS_GLB_FILTER(QS_QF_RECORDS);
@@ -15,6 +14,10 @@ void qsInit(char* argv)
     QS_GLB_FILTER(QS_FUN_DICT);
     QS_GLB_FILTER(QS_U0_RECORDS);
 
+    QS_GLB_FILTER(-QS_QF_NEW_REF);
+    QS_GLB_FILTER(-QS_QF_NEW);
+    QS_GLB_FILTER(-QS_QF_GC_ATTEMPT);
+    QS_GLB_FILTER(-QS_QF_GC);
     QS_GLB_FILTER(-QS_QF_ACTIVE_GET_LAST);
     QS_GLB_FILTER(-QS_QF_ACTIVE_GET);
     QS_GLB_FILTER(-QS_QF_ACTIVE_POST);

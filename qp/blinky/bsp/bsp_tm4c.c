@@ -1,7 +1,6 @@
 #include "all.h"
 
 uint32_t tick=0;
-
 // Error handler and ISRs...
 Q_NORETURN Q_onError(char const *module, int_t const id) {
     // NOTE: this implementation of the assertion handler is intended only
@@ -59,6 +58,8 @@ void bspInit(char* argv)
     SystemCoreClockUpdate();
 #ifdef Q_SPY
     qsInit(argv);
+#else
+    (void)argv;
 #endif
 }
 
@@ -101,3 +102,10 @@ void QK_onIdle(void)
 #endif
 }
 
+//arm-none-eabi expect to have this functions declared
+void _close ( void ) { }
+void _lseek ( void ) { }
+void _write ( void ) { }
+void _read  ( void ) { }
+
+    //

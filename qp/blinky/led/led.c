@@ -2,9 +2,9 @@
 
 led led_inst;
 
-QActive* ledAo(void)
+QMActive* ledAo(void)
 {
-    return (QActive*)&led_inst.super;
+    return (QMActive*)&led_inst.super;
 }
 
 void ledInitial(led * const me ,const void* par)
@@ -21,8 +21,8 @@ void ledInit(uint8_t prior)
 {
     static QEvt const *ledQueueSto[10];
 
-    QActive_ctor   ( &led_inst.super   ,Q_STATE_CAST(&led_initial     ));
-    QTimeEvt_ctorX ( &led_inst.timeEvt ,&led_inst.super ,TOUT_SIG ,0U ) ;
+    QMActive_ctor   ( &led_inst.super   ,Q_STATE_CAST(&led_initial     ));
+    QTimeEvt_ctorX ( &led_inst.timeEvt ,&led_inst.super.super ,TOUT_SIG ,0U ) ;
     QACTIVE_START(&led_inst.super,
         prior,              // QP prio. of the AO
         ledQueueSto,        // event queue storage

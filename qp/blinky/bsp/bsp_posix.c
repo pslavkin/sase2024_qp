@@ -48,5 +48,13 @@ void bspInit(char* argv)
 {
 #ifdef Q_SPY
     qsInit(argv);
+#else
+    (void)argv;
 #endif
 }
+
+//arm-none-eabi expect to have this functions declared
+void _close ( void ) { }
+void _lseek ( void ) { }
+void _write ( void ) { }
+void _read  ( void ) { }

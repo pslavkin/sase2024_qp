@@ -5,9 +5,13 @@ int main(int argc, char* argv[])
 {
    (void)argc;
     QF_init     (         );
-    bspInit     ( argv[1] );
-    uartDrvInit (         );
-    initSignals (         );
+#ifdef POSIX
+    bspInit     ( argv[1]);
+#else
+    bspInit     ( NULL );
+#endif
+    uartDrvInit (      );
+    initSignals (      );
 
     memInit  (   );
     uartInit ( 1 );

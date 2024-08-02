@@ -69,7 +69,7 @@ void uartDrvInit(void)
                     | (1U << 8U)  // UART TX enable
                     | (1U << 9U); // UART RX enable
 
-    NVIC_SetPriority(UART0_IRQn,     QF_AWARE_ISR_CMSIS_PRI);
+    NVIC_SetPriority(UART0_IRQn, QF_AWARE_ISR_CMSIS_PRI);
     //// configure UART interrupts (for the RX channel)
     UART0->IM   |= (1U << 6U); // enable RX only
     //UART0->IM   |= (1U << 4U) | (1U << 6U); // enable RX and RX-TO interrupt

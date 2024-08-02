@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model version="6.1.1" links="0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.state-machine.com/qm/qm.xsd">
+ <framework name="qpc"/>
+ <package name="blinky" stereotype="0x05">
+  <class name="ao" superclass="qpc::QActive">
+   <statechart properties="0x00">
+    <state name="state1">
+     <state_glyph node="26,11,20,15"/>
+    </state>
+    <state_diagram size="80,50"/>
+   </statechart>
+  </class>
+ </package>
+ <directory name=".">
+  <file name="blinky.c"/>
+ </directory>
+</model>

@@ -5,7 +5,7 @@ QP_PORT_DIR := $(QPC)/ports/arm-cm/qk/gnu
 # C source files...
 C_SRCS := \
 		  main.c \
-		  qs/qs.c \
+		  qs/qs_tm4c.c \
 		  share/signals.c \
 		  mem/mem.c \
 		  mem/pool.c \
@@ -23,12 +23,12 @@ C_SRCS := \
 		  startup_TM4C123GH6PM.c
 
 OUTPUT	  := $(PROJECT)
-LD_SCRIPT := linker/linker.ld
+LD_SCRIPT := linker/linker_tm4c.ld
 
 # defines...
 DEFINES   := -DTARGET_IS_TM4C123_RB1  -DTM4C
 ifeq (spy, $(CONF)) # Release configuration ..................................
-DEFINES   := -DQ_SPY
+DEFINES   += -DQ_SPY
 endif
 # ARM CPU, ARCH, FPU, and Float-ABI types...
 # ARM_CPU:	 [cortex-m0 | cortex-m0plus | cortex-m1 | cortex-m3 | cortex-m4]
@@ -173,6 +173,15 @@ ifneq ($(MAKECMDGOALS),clean)
   endif
 endif
 
+# Download program into flash memory of board
+debug:
+	@echo DEBUG to FLASH
+	openocd -f ../tools/ti_ek-tm4c123gxl.cfg \
+
+# Download program into flash memory of board
+download:
+	@echo DOWNLOAD to FLASH
+	lm4flash $(TARGET_BIN)
 
 .PHONY : clean show
 clean :

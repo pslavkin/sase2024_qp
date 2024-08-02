@@ -44,27 +44,51 @@
 
 //${AOs::led::SM} ............................................................
 QState led_initial(led * const me, void const * const par) {
+    static QMTranActTable const tatbl_ = { // tran-action table
+        &led_on_s, // target state
+        {
+            Q_ACTION_NULL // zero terminator
+        }
+    };
     //${AOs::led::SM::initial}
     ledInitial(me,par);
 
     QS_FUN_DICTIONARY(&led_on);
     QS_FUN_DICTIONARY(&led_off);
+    QS_FUN_DICTIONARY(&led_state);
+    QS_FUN_DICTIONARY(&led_ledToogle_on);
+    QS_FUN_DICTIONARY(&led_ledToogle_off);
+    QS_FUN_DICTIONARY(&led_ledToogle);
 
-    return Q_TRAN(&led_on);
+    return QM_TRAN_INIT(&tatbl_);
 }
 
 //${AOs::led::SM::on} ........................................................
+QMState const led_on_s = {
+    QM_STATE_NULL, // superstate (top)
+    Q_STATE_CAST(&led_on),
+    Q_ACTION_NULL, // no entry action
+    Q_ACTION_NULL, // no exit action
+    Q_ACTION_NULL  // no initial tran.
+};
+//${AOs::led::SM::on}
 QState led_on(led * const me, QEvt const * const e) {
     QState status_;
     switch (e->sig) {
         //${AOs::led::SM::on::TOUT}
         case TOUT_SIG: {
+            static QMTranActTable const tatbl_ = { // tran-action table
+                &led_off_s, // target state
+                {
+                    Q_ACTION_NULL // zero terminator
+                }
+            };
             ledDrvGreen(0);
-            status_ = Q_TRAN(&led_off);
+            status_ = QM_TRAN(&tatbl_);
             break;
         }
         default: {
-            status_ = Q_SUPER(&QHsm_top);
+            status_ = QM_SUPER();
             break;
         }
     }
@@ -72,17 +96,180 @@ QState led_on(led * const me, QEvt const * const e) {
 }
 
 //${AOs::led::SM::off} .......................................................
+QMState const led_off_s = {
+    QM_STATE_NULL, // superstate (top)
+    Q_STATE_CAST(&led_off),
+    Q_ACTION_NULL, // no entry action
+    Q_ACTION_NULL, // no exit action
+    Q_ACTION_NULL  // no initial tran.
+};
+//${AOs::led::SM::off}
 QState led_off(led * const me, QEvt const * const e) {
     QState status_;
     switch (e->sig) {
         //${AOs::led::SM::off::TOUT}
         case TOUT_SIG: {
-            ledDrvGreen(1);
-            status_ = Q_TRAN(&led_on);
+            static struct {
+                QMState const *target;
+                QActionHandler act[3];
+            } const tatbl_ = { // tran-action table
+                &led_ledToogle_s, // target submachine
+                {
+                    Q_ACTION_CAST(&led_state_e), // entry
+                    Q_ACTION_CAST(&led_ledToogle_red_ep), // EP
+                    Q_ACTION_NULL // zero terminator
+                }
+            };
+            status_ = QM_TRAN_EP(&tatbl_);
             break;
         }
         default: {
-            status_ = Q_SUPER(&QHsm_top);
+            status_ = QM_SUPER();
+            break;
+        }
+    }
+    return status_;
+}
+
+//${AOs::led::SM::state} .....................................................
+struct SM_ledToogle const led_state_s = {
+    {
+        QM_STATE_NULL, // superstate (top)
+        Q_STATE_CAST(&led_state),
+        Q_ACTION_CAST(&led_state_e),
+        Q_ACTION_NULL, // no exit action
+        Q_ACTION_NULL  // no initial tran.
+    }
+    ,Q_ACTION_CAST(&led_state_XP)
+};
+//${AOs::led::SM::state}
+QState led_state_e(led * const me) {
+    me->sub_ledToogle = &led_state_s; // attach submachine
+    return QM_ENTRY(&led_state_s.super);
+}
+//${AOs::led::SM::state}
+QState led_state_XP(led * const me) {
+    static struct {
+        QMState const *target;
+        QActionHandler act[2];
+    } const tatbl_ = { // tran-action table
+        &led_on_s, // target state
+        {
+            Q_ACTION_CAST(&led_ledToogle_x), // submachine exit
+            Q_ACTION_NULL // zero terminator
+        }
+    };
+    Q_UNUSED_PAR(me);
+    ledDrvGreen(1);
+    return QM_TRAN(&tatbl_);
+}
+//${AOs::led::SM::state}
+QState led_state(led * const me, QEvt const * const e) {
+    QState status_;
+    switch (e->sig) {
+        default: {
+            status_ = QM_SUPER();
+            break;
+        }
+    }
+    Q_UNUSED_PAR(me);
+    return status_;
+}
+
+//${AOs::led::SM::ledToogle} .................................................
+//${AOs::led::SM::ledToogle}
+QMState const led_ledToogle_s = {
+    QM_STATE_NULL, // superstate unused
+    Q_STATE_CAST(&led_ledToogle),
+    Q_ACTION_NULL, // no entry action
+    Q_ACTION_CAST(&led_ledToogle_x),
+    Q_ACTION_NULL  // no initial tran.
+};
+//${AOs::led::SM::ledToogle}
+QState led_ledToogle_x(led * const me) {
+    return QM_SM_EXIT(&me->sub_ledToogle->super);
+}
+//${AOs::led::SM::ledToogle}
+QState led_ledToogle(led * const me, QEvt const * const e) {
+    QState status_;
+    switch (e->sig) {
+        default: {
+            status_ = QM_SUPER_SUB(&me->sub_ledToogle->super);
+            break;
+        }
+    }
+    Q_UNUSED_PAR(me);
+    return status_;
+}
+//${AOs::led::SM::ledToogle::EP-red}
+QState led_ledToogle_red_ep(led * const me) {
+    static QMTranActTable const tatbl_ = { // tran-action table
+        &led_ledToogle_on_s, // target state
+        {
+            Q_ACTION_NULL // zero terminator
+        }
+    };
+    ledDrvRed(1);
+    return QM_TRAN_EP(&tatbl_);
+}
+
+//${AOs::led::SM::ledToogle::on} .............................................
+QMState const led_ledToogle_on_s = {
+    &led_ledToogle_s, // superstate
+    Q_STATE_CAST(&led_ledToogle_on),
+    Q_ACTION_NULL, // no entry action
+    Q_ACTION_NULL, // no exit action
+    Q_ACTION_NULL  // no initial tran.
+};
+//${AOs::led::SM::ledToogle::on}
+QState led_ledToogle_on(led * const me, QEvt const * const e) {
+    QState status_;
+    switch (e->sig) {
+        //${AOs::led::SM::ledToogle::on::TOUT}
+        case TOUT_SIG: {
+            static QMTranActTable const tatbl_ = { // tran-action table
+                &led_ledToogle_off_s, // target state
+                {
+                    Q_ACTION_NULL // zero terminator
+                }
+            };
+            ledDrvRed(0);
+            status_ = QM_TRAN(&tatbl_);
+            break;
+        }
+        default: {
+            status_ = QM_SUPER();
+            break;
+        }
+    }
+    return status_;
+}
+
+//${AOs::led::SM::ledToogle::off} ............................................
+QMState const led_ledToogle_off_s = {
+    &led_ledToogle_s, // superstate
+    Q_STATE_CAST(&led_ledToogle_off),
+    Q_ACTION_NULL, // no entry action
+    Q_ACTION_NULL, // no exit action
+    Q_ACTION_NULL  // no initial tran.
+};
+//${AOs::led::SM::ledToogle::off}
+QState led_ledToogle_off(led * const me, QEvt const * const e) {
+    QState status_;
+    switch (e->sig) {
+        //${AOs::led::SM::ledToogle::off::TOUT}
+        case TOUT_SIG: {
+            static QMTranActTable const tatbl_ = { // tran-action table
+                &led_ledToogle_s, // target submachine
+                {
+                    Q_ACTION_NULL // zero terminator
+                }
+            };
+            status_ = QM_TRAN_XP(me->sub_ledToogle->XP, &tatbl_);
+            break;
+        }
+        default: {
+            status_ = QM_SUPER();
             break;
         }
     }

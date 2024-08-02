@@ -51,6 +51,7 @@ void uartInitial(uart * const me ,const void* par)
 void uartPoolRx(uart * const me ,QEvt const * const e)
 {
    (void)me;(void)e;
+   return;
    uint8_t key;
    if(uartDrvRx(&key)) {
       if(key == '1') {

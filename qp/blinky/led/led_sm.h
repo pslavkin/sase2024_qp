@@ -36,16 +36,39 @@
 //${AOs::led} ................................................................
 typedef struct {
 // protected:
-    QActive super;
+    QMActive super;
 
 // private:
     QTimeEvt timeEvt;
+
+// private submachines
+    // exit points for submachine ${AOs::led::SM::ledToogle}
+    struct SM_ledToogle {
+        QMState super;
+        QActionHandler const XP; // eXit-Point segment
+    } const *sub_ledToogle;
 } led;
 
 // protected:
 QState led_initial(led * const me, void const * const par);
-QState led_on(led * const me, QEvt const * const e);
-QState led_off(led * const me, QEvt const * const e);
+QState led_on  (led * const me, QEvt const * const e);
+extern QMState const led_on_s;
+QState led_off  (led * const me, QEvt const * const e);
+extern QMState const led_off_s;
+QState led_state  (led * const me, QEvt const * const e);
+QState led_state_e(led * const me);
+QState led_state_XP(led * const me);
+extern struct SM_ledToogle const led_state_s;
+
+// submachine ${AOs::led::SM::ledToogle}
+QState led_ledToogle  (led * const me, QEvt const * const e);
+QState led_ledToogle_x(led * const me);
+extern QMState const led_ledToogle_s;
+QState led_ledToogle_red_ep(led * const me);
+QState led_ledToogle_on  (led * const me, QEvt const * const e);
+extern QMState const led_ledToogle_on_s;
+QState led_ledToogle_off  (led * const me, QEvt const * const e);
+extern QMState const led_ledToogle_off_s;
 //$enddecl${AOs::led} ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 #endif
