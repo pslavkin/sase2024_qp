@@ -80,6 +80,16 @@ QState uart_idle(uart * const me, QEvt const * const e) {
                 uartPrint2(me,e);
                 status_ = Q_HANDLED();
             }
+            //${AOs::uart::SM::idle::KEY::[uartGetKey(me,e)=='3']}
+            else if (uartGetKey(me,e)=='3') {
+                uartPrint3(me,e);
+                status_ = Q_HANDLED();
+            }
+            //${AOs::uart::SM::idle::KEY::[uartGetKey(me,e)=='4']}
+            else if (uartGetKey(me,e)=='4') {
+                uartPrint4(me,e);
+                status_ = Q_HANDLED();
+            }
             else {
                 status_ = Q_UNHANDLED();
             }

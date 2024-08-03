@@ -45,7 +45,7 @@
 //${AOs::led::SM} ............................................................
 QState led_initial(led * const me, void const * const par) {
     static QMTranActTable const tatbl_ = { // tran-action table
-        &led_on_s, // target state
+        &led_idle_s, // target state
         {
             Q_ACTION_NULL // zero terminator
         }
@@ -53,6 +53,7 @@ QState led_initial(led * const me, void const * const par) {
     //${AOs::led::SM::initial}
     ledInitial(me,par);
 
+    QS_FUN_DICTIONARY(&led_idle);
     QS_FUN_DICTIONARY(&led_on);
     QS_FUN_DICTIONARY(&led_off);
     QS_FUN_DICTIONARY(&led_state);
@@ -63,19 +64,63 @@ QState led_initial(led * const me, void const * const par) {
     return QM_TRAN_INIT(&tatbl_);
 }
 
-//${AOs::led::SM::on} ........................................................
-QMState const led_on_s = {
+//${AOs::led::SM::idle} ......................................................
+QMState const led_idle_s = {
     QM_STATE_NULL, // superstate (top)
+    Q_STATE_CAST(&led_idle),
+    Q_ACTION_NULL, // no entry action
+    Q_ACTION_NULL, // no exit action
+    Q_ACTION_NULL  // no initial tran.
+};
+//${AOs::led::SM::idle}
+QState led_idle(led * const me, QEvt const * const e) {
+    QState status_;
+    switch (e->sig) {
+        //${AOs::led::SM::idle::LEDR}
+        case LEDR_SIG: {
+            ledSetRed(me,e);
+            status_ = QM_HANDLED();
+            break;
+        }
+        //${AOs::led::SM::idle::LEDG}
+        case LEDG_SIG: {
+            ledSetGreen(me,e);
+            status_ = QM_HANDLED();
+            break;
+        }
+        //${AOs::led::SM::idle::LEDB}
+        case LEDB_SIG: {
+            ledSetBlue(me,e);
+            status_ = QM_HANDLED();
+            break;
+        }
+        //${AOs::led::SM::idle::TOUT}
+        case TOUT_SIG: {
+            ledTout(me,e);
+            status_ = QM_HANDLED();
+            break;
+        }
+        default: {
+            status_ = QM_SUPER();
+            break;
+        }
+    }
+    return status_;
+}
+
+//${AOs::led::SM::idle::on} ..................................................
+QMState const led_on_s = {
+    &led_idle_s, // superstate
     Q_STATE_CAST(&led_on),
     Q_ACTION_NULL, // no entry action
     Q_ACTION_NULL, // no exit action
     Q_ACTION_NULL  // no initial tran.
 };
-//${AOs::led::SM::on}
+//${AOs::led::SM::idle::on}
 QState led_on(led * const me, QEvt const * const e) {
     QState status_;
     switch (e->sig) {
-        //${AOs::led::SM::on::TOUT}
+        //${AOs::led::SM::idle::on::TOUT}
         case TOUT_SIG: {
             static QMTranActTable const tatbl_ = { // tran-action table
                 &led_off_s, // target state
@@ -95,19 +140,19 @@ QState led_on(led * const me, QEvt const * const e) {
     return status_;
 }
 
-//${AOs::led::SM::off} .......................................................
+//${AOs::led::SM::idle::off} .................................................
 QMState const led_off_s = {
-    QM_STATE_NULL, // superstate (top)
+    &led_idle_s, // superstate
     Q_STATE_CAST(&led_off),
     Q_ACTION_NULL, // no entry action
     Q_ACTION_NULL, // no exit action
     Q_ACTION_NULL  // no initial tran.
 };
-//${AOs::led::SM::off}
+//${AOs::led::SM::idle::off}
 QState led_off(led * const me, QEvt const * const e) {
     QState status_;
     switch (e->sig) {
-        //${AOs::led::SM::off::TOUT}
+        //${AOs::led::SM::idle::off::TOUT}
         case TOUT_SIG: {
             static struct {
                 QMState const *target;
@@ -131,10 +176,10 @@ QState led_off(led * const me, QEvt const * const e) {
     return status_;
 }
 
-//${AOs::led::SM::state} .....................................................
+//${AOs::led::SM::idle::state} ...............................................
 struct SM_ledToogle const led_state_s = {
     {
-        QM_STATE_NULL, // superstate (top)
+        &led_idle_s, // superstate
         Q_STATE_CAST(&led_state),
         Q_ACTION_CAST(&led_state_e),
         Q_ACTION_NULL, // no exit action
@@ -142,12 +187,12 @@ struct SM_ledToogle const led_state_s = {
     }
     ,Q_ACTION_CAST(&led_state_XP)
 };
-//${AOs::led::SM::state}
+//${AOs::led::SM::idle::state}
 QState led_state_e(led * const me) {
     me->sub_ledToogle = &led_state_s; // attach submachine
     return QM_ENTRY(&led_state_s.super);
 }
-//${AOs::led::SM::state}
+//${AOs::led::SM::idle::state}
 QState led_state_XP(led * const me) {
     static struct {
         QMState const *target;
@@ -163,7 +208,7 @@ QState led_state_XP(led * const me) {
     ledDrvGreen(1);
     return QM_TRAN(&tatbl_);
 }
-//${AOs::led::SM::state}
+//${AOs::led::SM::idle::state}
 QState led_state(led * const me, QEvt const * const e) {
     QState status_;
     switch (e->sig) {

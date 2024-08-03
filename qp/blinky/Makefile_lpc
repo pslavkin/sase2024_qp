@@ -19,6 +19,8 @@ C_SRCS := \
 		  btn/btn_drv_lpc.c \
 		  btn/btn_sm.c \
 		  btn/btn.c \
+		  ros/ros_sm.c \
+		  ros/ros.c \
 		  board.c \
 		  board_sysinit.c \
 		  clock_18xx_43xx.c \
@@ -145,7 +147,7 @@ C_OBJS		 := $(patsubst %.c,%.o,   $(C_SRCS))
 CPP_OBJS	 := $(patsubst %.cpp,%.o, $(CPP_SRCS))
 
 TARGET_ELF	 := $(BIN_DIR)/$(OUTPUT).elf
-TARGET_BIN   := $(BIN_DIR)/$(OUTPUT).bin
+TARGET_BIN	 := $(BIN_DIR)/$(OUTPUT).bin
 ASM_OBJS_EXT := $(addprefix $(BIN_DIR)/, $(ASM_OBJS))
 C_OBJS_EXT	 := $(addprefix $(BIN_DIR)/, $(C_OBJS))
 C_DEPS_EXT	 := $(patsubst %.o,%.d, $(C_OBJS_EXT))
@@ -207,6 +209,17 @@ download: $(TARGET_BIN)
 .PHONY : clean show
 clean :
 	find $(BIN_DIR) -iname "*\.o"  -delete && find $(BIN_DIR) -iname "*\.d" -delete 
+
+dirs:
+	mkdir -p build/bsp		\
+			 build/led		\
+			 build/btn		\
+			 build/mem		\
+			 build/uart		\
+			 build/qs		\
+			 build/share	\
+			 build/ros		\
+
 
 show :
 	@echo PROJECT	   = $(PROJECT)

@@ -14,7 +14,7 @@
     <!--${AOs::uart::SM::initial}-->
     <initial target="../1">
      <action>uartInitial(me,par);</action>
-     <initial_glyph conn="9,2,5,0,12,7">
+     <initial_glyph conn="9,2,5,0,14,3">
       <action box="0,-2,12,5"/>
      </initial_glyph>
     </initial>
@@ -23,14 +23,14 @@
      <!--${AOs::uart::SM::idle::TOUT}-->
      <tran trig="TOUT">
       <action>uartPoolRx(me,e);</action>
-      <tran_glyph conn="15,18,3,-1,16">
+      <tran_glyph conn="17,14,3,-1,16">
        <action box="0,-2,15,6"/>
       </tran_glyph>
      </tran>
      <!--${AOs::uart::SM::idle::PRINT}-->
      <tran trig="PRINT">
       <action>uartPrint(me,e);</action>
-      <tran_glyph conn="15,26,3,-1,19">
+      <tran_glyph conn="17,22,3,-1,19">
        <action box="0,-2,19,6"/>
       </tran_glyph>
      </tran>
@@ -41,25 +41,41 @@
       <choice>
        <guard>uartGetKey(me,e)=='1'</guard>
        <action>uartPrint1(me,e);</action>
-       <choice_glyph conn="29,32,5,-1,12">
-        <action box="1,0,18,5"/>
+       <choice_glyph conn="31,28,4,-1,2,12">
+        <action box="2,0,19,6"/>
        </choice_glyph>
       </choice>
       <!--${AOs::uart::SM::idle::KEY::[uartGetKey(me,e)=='2']}-->
       <choice>
        <guard>uartGetKey(me,e)=='2'</guard>
        <action>uartPrint2(me,e);</action>
-       <choice_glyph conn="29,32,4,-1,7,11">
+       <choice_glyph conn="31,28,4,-1,9,12">
         <action box="1,7,20,5"/>
        </choice_glyph>
       </choice>
-      <tran_glyph conn="15,32,3,-1,14">
+      <!--${AOs::uart::SM::idle::KEY::[uartGetKey(me,e)=='3']}-->
+      <choice>
+       <guard>uartGetKey(me,e)=='3'</guard>
+       <action>uartPrint3(me,e);</action>
+       <choice_glyph conn="31,28,4,-1,16,12">
+        <action box="1,14,20,5"/>
+       </choice_glyph>
+      </choice>
+      <!--${AOs::uart::SM::idle::KEY::[uartGetKey(me,e)=='4']}-->
+      <choice>
+       <guard>uartGetKey(me,e)=='4'</guard>
+       <action>uartPrint4(me,e);</action>
+       <choice_glyph conn="31,28,4,-1,22,12">
+        <action box="1,20,20,5"/>
+       </choice_glyph>
+      </choice>
+      <tran_glyph conn="17,28,3,-1,14">
        <action box="0,-2,16,5"/>
       </tran_glyph>
      </tran>
-     <state_glyph node="15,9,39,38"/>
+     <state_glyph node="17,5,39,48"/>
     </state>
-    <state_diagram size="95,50"/>
+    <state_diagram size="95,55"/>
    </statechart>
   </class>
  </package>

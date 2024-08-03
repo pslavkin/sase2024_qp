@@ -28,9 +28,9 @@
       </tran_glyph>
      </tran>
      <!--${AOs::btn::SM::idle::BTN1}-->
-     <tran trig="BTN1" target="../3">
-      <tran_glyph conn="15,26,3,3,19">
-       <action box="0,-2,10,2"/>
+     <tran trig="BTN1">
+      <tran_glyph conn="15,26,3,-1,15">
+       <action box="0,-2,13,4"/>
       </tran_glyph>
      </tran>
      <!--${AOs::btn::SM::idle::BTN2}-->

@@ -187,6 +187,16 @@ download:
 clean :
 	find $(BIN_DIR) -iname "*\.o"  -delete && find $(BIN_DIR) -iname "*\.d" -delete 
 
+dirs:
+	mkdir -p build/bsp 		\
+			 build/led 		\
+			 build/btn 		\
+			 build/mem 		\
+			 build/uart 	\
+			 build/qs 		\
+			 build/share 	\
+			 build/ros		\
+
 show :
 	@echo PROJECT	   = $(PROJECT)
 	@echo TARGET_EXE   = $(TARGET_EXE)

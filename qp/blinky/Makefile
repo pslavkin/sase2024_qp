@@ -1,54 +1,31 @@
 PROJECT		:= blinky
 QPC			:= ../qp/qpc
-QP_PORT_DIR := $(QPC)/ports/arm-cm/qk/gnu
+#QP_PORT_DIR := $(QPC)/ports/posix-qv
+QP_PORT_DIR := $(QPC)/ports/posix/
 
 # C source files...
 C_SRCS := \
 		  main.c \
-		  qs/qs_lpc.c \
+		  qs/qs_posix.c \
 		  share/signals.c \
 		  mem/mem.c \
 		  mem/pool.c \
-		  bsp/bsp_lpc.c \
-		  uart/uart_drv_lpc.c \
+		  bsp/bsp_posix.c \
+		  uart/uart_drv_posix.c \
 		  uart/uart_sm.c \
 		  uart/uart.c \
-		  led/led_drv_lpc.c \
+		  led/led_drv_posix.c \
 		  led/led_sm.c \
 		  led/led.c \
-		  btn/btn_drv_lpc.c \
+		  btn/btn_drv_posix.c \
 		  btn/btn_sm.c \
 		  btn/btn.c \
-		  board.c \
-		  board_sysinit.c \
-		  clock_18xx_43xx.c \
-		  sysinit_18xx_43xx.c \
-		  chip_18xx_43xx.c \
-		  i2c_18xx_43xx.c  \
-		  ssp_18xx_43xx.c \
-		  adc_18xx_43xx.c \
-		  gpio_18xx_43xx.c \
-		  uart_18xx_43xx.c \
-		  crp.c \
-		  system_LPC4337.c \
-		  startup_LPC4337.c \
-
-OUTPUT	  := $(PROJECT)
-LD_SCRIPT := linker/linker_lpc.ld
 
 # defines...
-DEFINES   := -DCHIP_LPC43XX -DCORE_M4 -DLPC -D__FPU_PRESENT
+DEFINES   := -DPOSIX -DQF_CONSOLE
 ifeq (spy, $(CONF)) # Release configuration ..................................
 DEFINES   += -DQ_SPY
 endif
-# ARM CPU, ARCH, FPU, and Float-ABI types...
-# ARM_CPU:	 [cortex-m0 | cortex-m0plus | cortex-m1 | cortex-m3 | cortex-m4]
-# ARM_FPU:	 [ | vfp]
-# FLOAT_ABI: [ | soft | softfp | hard]
-#
-ARM_CPU   := -mcpu=cortex-m4
-ARM_FPU   := -mfpu=vfp
-FLOAT_ABI := -mfloat-abi=softfp
 
 #-----------------------------------------------------------------------------
 C_SRCS += \
@@ -64,24 +41,22 @@ C_SRCS += \
 	qf_qeq.c \
 	qf_qmact.c \
 	qf_time.c \
-	qk.c \
-	qk_port.c \
+	qf_port.c \
 
 ifeq (spy, $(CONF))
 C_SRCS += \
 	qs.c \
+	qs_64bit.c \
 	qs_rx.c \
-	qs_fp.c
+	qs_fp.c \
+	qs_port.c
 endif
+
+LIBS += -lpthread
 
 # Typically you should not need to change anything below this line
 VPATH	 += $(QPC)/src/qf  \
-			$(QPC)/src/qk \
 			$(QP_PORT_DIR) \
-			$(QPC)/3rd_party/lpc4337 \
-			$(QPC)/3rd_party/lpc4337/boards/edu_ciaa_nxp/src \
-			$(QPC)/3rd_party/lpc4337/lpc_chip_43xx/src \
-			$(QPC)/3rd_party/lpc4337/gnu \
 			$(QPC)/src/qs \
 
 INCLUDES += -I. \
@@ -89,66 +64,41 @@ INCLUDES += -I. \
 			-I$(QPC)/include \
 			-I$(QPC)/src	 \
 			-I$(QP_PORT_DIR) \
-			-I$(QPC)/3rd_party/CMSIS/Include \
-			-I$(QPC)/3rd_party/lpc4337 \
-			-I$(QPC)/3rd_party/lpc4337/linker/ \
-			-I$(QPC)/3rd_party/lpc4337/lpc_chip_43xx/inc \
-			-I$(QPC)/3rd_party/lpc4337/boards/edu_ciaa_nxp/inc \
-			-I$(QPC)/3rd_party/lpc4337/boards/inc \
 
 #-----------------------------------------------------------------------------
 # GNU-ARM toolset (NOTE: You need to adjust to your machine)
-GNU_ARM := /usr
+CC	  := gcc
+CPP   := g++
+LINK  := gcc	# for C programs
+#LINK  := g++	# for C++ programs
 
-# make sure that the GNU-ARM toolset exists...
-ifeq ("$(wildcard $(GNU_ARM))","")
-$(error GNU_ARM toolset not found. Please adjust the Makefile)
-endif
-
-CC	  := $(GNU_ARM)/bin/arm-none-eabi-gcc
-CPP   := $(GNU_ARM)/bin/arm-none-eabi-g++
-AS	  := $(GNU_ARM)/bin/arm-none-eabi-as
-LINK  := $(GNU_ARM)/bin/arm-none-eabi-gcc
-BIN   := $(GNU_ARM)/bin/arm-none-eabi-objcopy
-
-
-# basic utilities (included in Qtools for Windows), see:
-#	 http://sourceforge.net/projects/qpc/files/Qtools
-
-MKDIR := mkdir
-RM	  := rm
+MKDIR	   := mkdir -p
+RM		   := rm -f
+TARGET_EXT :=
 
 #-----------------------------------------------------------------------------
 # build options for various configurations for ARM Cortex-M4F
 #
 
-# combine all the sources...
 BIN_DIR  := build
+#
+# gcc options:
+CFLAGS  = -c -g -O -fno-pie -std=c11 -pedantic -Wall -Wextra -W \
+	$(INCLUDES) $(DEFINES)
 
-ASFLAGS = -g $(ARM_CPU) $(ARM_FPU) $(ASM_CPU) $(ASM_FPU)
+CPPFLAGS = -c -g -O -fno-pie -std=c++11 -pedantic -Wall -Wextra \
+	-fno-rtti -fno-exceptions \
+	$(INCLUDES) $(DEFINES)
 
-CFLAGS = -c -g $(ARM_CPU) $(ARM_FPU) $(FLOAT_ABI) -mthumb -Wall \
-	-ffunction-sections -fdata-sections \
-	-O $(INCLUDES) $(DEFINES)
-
-CPPFLAGS = -c -g $(ARM_CPU) $(ARM_FPU) $(FLOAT_ABI) -mthumb -Wall \
-	-ffunction-sections -fdata-sections -fno-rtti -fno-exceptions \
-	-O $(INCLUDES) $(DEFINES)
-
-LINKFLAGS = -T$(LD_SCRIPT) $(ARM_CPU) $(ARM_FPU) $(FLOAT_ABI) -mthumb \
-	-specs=nosys.specs -specs=nano.specs \
-	-Wl,-Map,$(BIN_DIR)/$(OUTPUT).map,--cref,--gc-sections $(LIB_DIRS)
+LINKFLAGS := -no-pie
 
 
-ASM_OBJS	 := $(patsubst %.s,%.o,  $(ASM_SRCS))
-C_OBJS		 := $(patsubst %.c,%.o,   $(C_SRCS))
-CPP_OBJS	 := $(patsubst %.cpp,%.o, $(CPP_SRCS))
+C_OBJS       := $(patsubst %.c,%.o,   $(C_SRCS))
+CPP_OBJS     := $(patsubst %.cpp,%.o, $(CPP_SRCS))
 
-TARGET_ELF	 := $(BIN_DIR)/$(OUTPUT).elf
-TARGET_BIN   := $(BIN_DIR)/$(OUTPUT).bin
-ASM_OBJS_EXT := $(addprefix $(BIN_DIR)/, $(ASM_OBJS))
-C_OBJS_EXT	 := $(addprefix $(BIN_DIR)/, $(C_OBJS))
-C_DEPS_EXT	 := $(patsubst %.o,%.d, $(C_OBJS_EXT))
+TARGET_EXE   := $(BIN_DIR)/$(PROJECT)$(TARGET_EXT)
+C_OBJS_EXT   := $(addprefix $(BIN_DIR)/, $(C_OBJS))
+C_DEPS_EXT   := $(patsubst %.o,%.d, $(C_OBJS_EXT))
 CPP_OBJS_EXT := $(addprefix $(BIN_DIR)/, $(CPP_OBJS))
 CPP_DEPS_EXT := $(patsubst %.o,%.d, $(CPP_OBJS_EXT))
 
@@ -161,15 +111,13 @@ endif
 # rules
 #
 
-all: $(TARGET_BIN)
+.PHONY: clean show
 
-$(TARGET_BIN): $(TARGET_ELF)
-	$(BIN) -O binary $< $@
+all: $(TARGET_EXE)
 
-
-$(TARGET_ELF) : $(ASM_OBJS_EXT) $(C_OBJS_EXT) $(CPP_OBJS_EXT)
+$(TARGET_EXE) : $(C_OBJS_EXT) $(CPP_OBJS_EXT)
 	$(CC) $(CFLAGS) $(QPC)/src/qs/qstamp.c -o $(BIN_DIR)/qstamp.o
-	$(LINK) $(LINKFLAGS) -o $@ $^ $(BIN_DIR)/qstamp.o $(LIBS)
+	$(LINK) $(LINKFLAGS) $(LIB_DIRS) -o $@ $^ $(BIN_DIR)/qstamp.o $(LIBS)
 
 $(BIN_DIR)/%.d : %.c
 	$(CC) -MM -MT $(@:.d=.o) $(CFLAGS) $< > $@
@@ -183,43 +131,42 @@ $(BIN_DIR)/%.o : %.c
 $(BIN_DIR)/%.o : %.cpp
 	$(CPP) $(CPPFLAGS) $< -o $@
 
-# include dependency files only if our goal depends on their existence
+# create BIN_DIR and include dependencies only if needed
 ifneq ($(MAKECMDGOALS),clean)
   ifneq ($(MAKECMDGOALS),show)
+     ifneq ($(MAKECMDGOALS),debug)
+ifeq ("$(wildcard $(BIN_DIR))","")
+$(shell $(MKDIR) $(BIN_DIR))
+endif
 -include $(C_DEPS_EXT) $(CPP_DEPS_EXT)
+     endif
   endif
 endif
 
-
-# Download program into flash memory of board
-download: $(TARGET_BIN)
-	@echo DOWNLOAD to FLASH
-	openocd -f ../tools/lpc4337.cfg \
-		-c "init" \
-		-c "halt 0" \
-		-c "flash write_image erase $(TARGET_BIN) 0x1A000000 bin" \
-		-c "reset run" \
-
-#		-c "shutdown" 2>&1
-
-
-
-.PHONY : clean show
 clean :
-	find $(BIN_DIR) -iname "*\.o"  -delete && find $(BIN_DIR) -iname "*\.d" -delete 
+	find $(BIN_DIR) -iname "*\.o"  -delete && find $(BIN_DIR) -iname "*\.d" -delete && find $(BIN_DIR) -iname "*\.elf" -delete
+
+dirs:
+	mkdir -p build/bsp 		\
+			 build/led 		\
+			 build/btn 		\
+			 build/mem 		\
+			 build/uart 	\
+			 build/qs 		\
+			 build/share 	\
 
 show :
-	@echo PROJECT	   = $(PROJECT)
+	@echo PROJECT      = $(PROJECT)
 	@echo TARGET_EXE   = $(TARGET_EXE)
-	@echo VPATH		   = $(VPATH)
-	@echo C_SRCS	   = $(C_SRCS)
-	@echo CPP_SRCS	   = $(CPP_SRCS)
+	@echo VPATH        = $(VPATH)
+	@echo C_SRCS       = $(C_SRCS)
+	@echo CPP_SRCS     = $(CPP_SRCS)
 	@echo C_DEPS_EXT   = $(C_DEPS_EXT)
 	@echo C_OBJS_EXT   = $(C_OBJS_EXT)
 	@echo C_DEPS_EXT   = $(C_DEPS_EXT)
 	@echo CPP_DEPS_EXT = $(CPP_DEPS_EXT)
 	@echo CPP_OBJS_EXT = $(CPP_OBJS_EXT)
-	@echo LIB_DIRS	   = $(LIB_DIRS)
-	@echo LIBS		   = $(LIBS)
-	@echo DEFINES	   = $(DEFINES)
+	@echo LIB_DIRS     = $(LIB_DIRS)
+	@echo LIBS         = $(LIBS)
+	@echo DEFINES      = $(DEFINES)
 

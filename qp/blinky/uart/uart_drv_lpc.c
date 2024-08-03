@@ -49,7 +49,7 @@ void UART2_IRQHandler(void)
 
   while(Chip_UART_ReadLineStatus(LPC_USART2) & UART_LSR_RDR) {
       uint8_t data = Chip_UART_ReadByte(LPC_USART2);
-      ledDrvBlueToggle();
+      //ledDrvBlueToggle();
 #ifdef Q_SPY
          QS_RX_PUT(data);
 #else

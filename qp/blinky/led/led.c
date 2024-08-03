@@ -7,10 +7,37 @@ QMActive* ledAo(void)
     return (QMActive*)&led_inst.super;
 }
 
+void ledTout(led * const me ,QEvt const * const e)
+{
+   (void)e;(void)me;
+   ledDrvLed1Toggle();
+}
+   
+void ledSetRed(led * const me ,QEvt const * const e)
+{
+   (void)me;
+   struct evtUint8_t *c = (struct evtUint8_t*)e;
+   ledDrvRed(c->data!=0);
+}
+void ledSetGreen(led * const me ,QEvt const * const e)
+{
+   (void)me;
+   struct evtUint8_t *c = (struct evtUint8_t*)e;
+   ledDrvGreen(c->data!=0);
+}
+void ledSetBlue(led * const me ,QEvt const * const e)
+{
+   (void)me;
+   struct evtUint8_t *c = (struct evtUint8_t*)e;
+   ledDrvBlue(c->data!=0);
+}
 void ledInitial(led * const me ,const void* par)
 {
    (void)par;
 
+   QActive_subscribe ( &me->super.super,LEDR_SIG );
+   QActive_subscribe ( &me->super.super,LEDG_SIG );
+   QActive_subscribe ( &me->super.super,LEDB_SIG );
    QS_OBJ_DICTIONARY(&led_inst);
    QS_OBJ_DICTIONARY(&me->timeEvt);
    ledDrvInit();

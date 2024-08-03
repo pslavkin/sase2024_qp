@@ -20,6 +20,8 @@ C_SRCS := \
 		  btn/btn_drv_posix.c \
 		  btn/btn_sm.c \
 		  btn/btn.c \
+		  ros/ros_sm.c \
+		  ros/ros.c \
 
 # defines...
 DEFINES   := -DPOSIX -DQF_CONSOLE
@@ -145,7 +147,17 @@ endif
 
 clean :
 	find $(BIN_DIR) -iname "*\.o"  -delete && find $(BIN_DIR) -iname "*\.d" -delete && find $(BIN_DIR) -iname "*\.elf" -delete
-	#
+
+dirs:
+	mkdir -p build/bsp 		\
+			 build/led 		\
+			 build/btn 		\
+			 build/mem 		\
+			 build/uart 	\
+			 build/qs 		\
+			 build/share 	\
+			 build/ros		\
+
 show :
 	@echo PROJECT      = $(PROJECT)
 	@echo TARGET_EXE   = $(TARGET_EXE)

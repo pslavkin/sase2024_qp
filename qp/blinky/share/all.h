@@ -5,6 +5,8 @@
 #include "led/led.h"
 #include "uart/uart_sm.h"
 #include "uart/uart.h"
+#include "ros/ros_sm.h"
+#include "ros/ros.h"
 #include "mem/mem.h"
 #include "mem/pool.h"
 #include "share/signals.h"

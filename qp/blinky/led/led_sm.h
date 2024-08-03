@@ -51,6 +51,8 @@ typedef struct {
 
 // protected:
 QState led_initial(led * const me, void const * const par);
+QState led_idle  (led * const me, QEvt const * const e);
+extern QMState const led_idle_s;
 QState led_on  (led * const me, QEvt const * const e);
 extern QMState const led_on_s;
 QState led_off  (led * const me, QEvt const * const e);
