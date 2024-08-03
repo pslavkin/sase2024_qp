@@ -1,3 +1,4 @@
+//demo code for sase2024 qp workshop - slavkin.pablo@gmail.com
 //$file${qxk::xthread2.c} vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 //
 // Model: dpp_mpu.qm

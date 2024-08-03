@@ -1,3 +1,4 @@
+//demo code for sase2024 qp workshop - slavkin.pablo@gmail.com
 #include "qpc.h"
 #include "btn/btn_sm.h"
 #include "btn/btn.h"

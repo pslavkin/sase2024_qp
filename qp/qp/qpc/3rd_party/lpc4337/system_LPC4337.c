@@ -1,3 +1,4 @@
+//demo code for sase2024 qp workshop - slavkin.pablo@gmail.com
 /*
  * @brief Common SystemInit function for LPC18xx/LPC43xx chips
  *

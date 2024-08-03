@@ -1,3 +1,4 @@
+//demo code for sase2024 qp workshop - slavkin.pablo@gmail.com
 //============================================================================
 #include "all.h"
 
@@ -88,22 +89,17 @@ void UART0_IRQHandler(void)
     uint32_t status = UART0->RIS; // get the raw interrupt status
     UART0->ICR = status;          // clear the asserted interrupts
 
-    ledDrvBlueToggle();
+    uint8_t data;
+    while(uartDrvRx(&data)) {
+       //ledDrvBlueToggle();
 #ifdef Q_SPY
-    uint8_t data;
-    while(uartDrvRx(&data))
-    {
-        QS_RX_PUT(data);
-    }
+       QS_RX_PUT(data);
 #else
-    uint8_t data;
-    while(uartDrvRx(&data))
-    {
-      struct evtUint8_t* e = Q_NEW(struct evtUint8_t, KEY_SIG);
-      e->data = data;
-      QF_PUBLISH(&e->super, 0U);
-    }
+       struct evtUint8_t* e = Q_NEW(struct evtUint8_t, KEY_SIG);
+       e->data = data;
+       QF_PUBLISH(&e->super, 0U);
 #endif
+    }
     QK_ISR_EXIT(); // inform QK about exiting an ISR
 }
 

@@ -1,3 +1,4 @@
+//demo code for sase2024 qp workshop - slavkin.pablo@gmail.com
 /*
  * @brief LPC18xx/43xx Pin Interrupt and Pattern Match driver
  *

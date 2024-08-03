@@ -1,3 +1,4 @@
+//demo code for sase2024 qp workshop - slavkin.pablo@gmail.com
 /*
  * Copyright (C) 2018 by Martin Alejandro Ribelotta
  */

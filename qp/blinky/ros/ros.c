@@ -1,3 +1,4 @@
+//demo code for sase2024 qp workshop - slavkin.pablo@gmail.com
 #include "all.h"
 
 ros ros_inst;
@@ -18,14 +19,12 @@ void rosInitial(ros * const me ,const void* par)
    QActive_subscribe ( &me->super.super,KEY_SIG );
    QS_OBJ_DICTIONARY(&ros_inst);
    QS_OBJ_DICTIONARY(&me->timeEvt);
-  // rosDrvInit();
    QTimeEvt_armX(&me->timeEvt,BSP_TICKS_PER_SEC/2, BSP_TICKS_PER_SEC/2);
 }
 
 void rosOnEntry(ros * const me)
 {
    (void)me;
-   uartDrvTxString("entry\r\n");
 }
 
 void rosBtn1(ros * const me, QEvt const* e)

@@ -1,3 +1,4 @@
+//demo code for sase2024 qp workshop - slavkin.pablo@gmail.com
 /*
     LPCOpen CIAA-NXP Board port
     Copyright 2018 Santiago Germino (royconejo@gmail.com)

@@ -1,3 +1,4 @@
+//demo code for sase2024 qp workshop - slavkin.pablo@gmail.com
 #ifndef LED_DRV
 #define LED_DRV
 
@@ -8,5 +9,6 @@ void ledDrvGreen       ( uint8_t state );
 void ledDrvBlueToggle  ( void          );
 void ledDrvBlue        ( uint8_t state );
 void ledDrvInit        ( void          );
+void ledDrvLed1Toggle  ( void          );
 
 #endif

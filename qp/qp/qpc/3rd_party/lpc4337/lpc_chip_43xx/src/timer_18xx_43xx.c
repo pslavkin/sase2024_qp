@@ -1,3 +1,4 @@
+//demo code for sase2024 qp workshop - slavkin.pablo@gmail.com
 /*
  * @brief LPC18xx/43xx 16/32-bit Timer/PWM driver
  *

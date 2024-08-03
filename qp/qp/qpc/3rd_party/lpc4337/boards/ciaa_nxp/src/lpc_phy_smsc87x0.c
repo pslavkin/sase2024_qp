@@ -1,3 +1,4 @@
+//demo code for sase2024 qp workshop - slavkin.pablo@gmail.com
 /*
  * @brief SMSC 87x0 simple PHY driver
  *

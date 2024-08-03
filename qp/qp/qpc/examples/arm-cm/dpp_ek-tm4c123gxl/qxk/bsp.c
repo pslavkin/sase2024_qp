@@ -1,3 +1,4 @@
+//demo code for sase2024 qp workshop - slavkin.pablo@gmail.com
 //============================================================================
 // Product: DPP example, EK-TM4C123GXL board, QXK kernel
 // Last updated for version 7.3.2

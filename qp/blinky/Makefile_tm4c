@@ -16,6 +16,8 @@ C_SRCS := \
 		  led/led_drv_tm4c.c \
 		  led/led_sm.c \
 		  led/led.c \
+		  ros/ros_sm.c \
+		  ros/ros.c \
 		  btn/btn_drv_tm4c.c \
 		  btn/btn_sm.c \
 		  btn/btn.c \
@@ -179,7 +181,7 @@ debug:
 	openocd -f ../tools/ti_ek-tm4c123gxl.cfg \
 
 # Download program into flash memory of board
-download:
+download: $(TARGET_BIN)
 	@echo DOWNLOAD to FLASH
 	lm4flash $(TARGET_BIN)
 

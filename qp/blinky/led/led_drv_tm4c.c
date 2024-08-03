@@ -1,3 +1,4 @@
+//demo code for sase2024 qp workshop - slavkin.pablo@gmail.com
 #include "all.h"
 
 #define LED_RED     (1U << 1U)
@@ -54,6 +55,14 @@ void ledDrvBlue ( uint8_t state )
    QS_BEGIN_ID(QS_USER+1,0)
       QS_U8(1,GPIOF_AHB->DATA_Bits[LED_BLUE]);
       QS_STR("ledDrvBlue");
+   QS_END()
+}
+void ledDrvLed1Toggle ( void )
+{ 
+   GPIOF_AHB->DATA_Bits[LED_RED] ^= 0xFFU ;
+   QS_BEGIN_ID(QS_USER+1,0)
+      QS_U8(1,GPIOF_AHB->DATA_Bits[LED_RED]);
+      QS_STR("ledDrvLed1Toggle");
    QS_END()
 }
 

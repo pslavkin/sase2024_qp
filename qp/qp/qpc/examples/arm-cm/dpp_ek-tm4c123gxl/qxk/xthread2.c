@@ -1,3 +1,4 @@
+//demo code for sase2024 qp workshop - slavkin.pablo@gmail.com
 //============================================================================
 // QXThread example
 // Last updated for version 7.3.0

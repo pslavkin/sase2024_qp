@@ -1,3 +1,4 @@
+//demo code for sase2024 qp workshop - slavkin.pablo@gmail.com
 #include "all.h"
 
 
@@ -23,7 +24,7 @@ uint8_t uartGetKey(uart * const me , QEvt const * const e)
 }
 void uartEcho(uart * const me , QEvt const * const e)
 {
-   (void)me;
+   (void)me;(void)e;
 //   struct evtUint8_t *c = (struct evtUint8_t*)e;
 //   uartDrvTxChar(c->data);
 }
@@ -65,7 +66,9 @@ void uartInitial(uart * const me ,const void* par)
    QS_OBJ_DICTIONARY(&uart_inst);
    QS_FUN_DICTIONARY(uartPoolRx);
    QS_FUN_DICTIONARY(uartPrint);
+   uartDrvTxString("Welcome to SASE2024 QP workshop!!\r\n");
 }
+
 void uartPoolRx(uart * const me ,QEvt const * const e)
 {
    (void)me;(void)e;
