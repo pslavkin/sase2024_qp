@@ -30,28 +30,28 @@ void uartEcho(uart * const me , QEvt const * const e)
 }
 void uartPrint1(uart * const me , QEvt const * const e)
 {
-   (void)e;
+   (void)e;(void)me;
    QEvt* k = Q_NEW(QEvt, BTN1_SIG);
    QF_PUBLISH(k, &me->super);
 //   uartDrvTxString("btn 1\r\n");
 }
 void uartPrint2(uart * const me , QEvt const * const e)
 {
-   (void)e;
+   (void)e;(void)me;
    QEvt* k = Q_NEW(QEvt, BTN2_SIG);
    QF_PUBLISH(k, &me->super);
 //   uartDrvTxString("btn 2\r\n");
 }
 void uartPrint3(uart * const me , QEvt const * const e)
 {
-   (void)e;
+   (void)e;(void)me;
    QEvt* k = Q_NEW(QEvt, BTN3_SIG);
    QF_PUBLISH(k, &me->super);
 //   uartDrvTxString("btn 3\r\n");
 }
 void uartPrint4(uart * const me , QEvt const * const e)
 {
-   (void)e;
+   (void)e;(void)me;
    QEvt* k = Q_NEW(QEvt, BTN4_SIG);
    QF_PUBLISH(k, &me->super);
 //   uartDrvTxString("btn 4\r\n");

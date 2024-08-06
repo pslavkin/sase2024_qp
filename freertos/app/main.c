@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <string.h>
+#include <stdbool.h>
 
 #include <FreeRTOS.h>
 #include <task.h>
@@ -34,10 +35,8 @@ static void blink1(void* params)
     while(true) {
        vTaskDelay(pdMS_TO_TICKS(500));
        led_on ( LED_GREEN );
-       uart_printStr(APP_DEBUG_UART,  "led1 on\r\n");
-       vTaskDelay(pdMS_TO_TICKS(500));
+       uart_printStr(APP_DEBUG_UART,  "1111111111");
        led_off ( LED_GREEN );
-       uart_printStr(APP_DEBUG_UART,  "led1 off\r\n");
     }
 }
 static void blink2(void* params)
@@ -46,10 +45,8 @@ static void blink2(void* params)
     while(true) {
        vTaskDelay(pdMS_TO_TICKS(2000));
        led_on ( LED_BLUE );
-       uart_printStr(APP_DEBUG_UART,  "led2 on\r\n");
-       vTaskDelay(pdMS_TO_TICKS(2000));
+       uart_printStr(APP_DEBUG_UART,  "2222222222");
        led_off ( LED_BLUE );
-       uart_printStr(APP_DEBUG_UART,  "led2 off\r\n");
     }
 }
 static void switchTask(void* params)
@@ -74,7 +71,7 @@ int main(void)
 
     xTaskCreate ( echo       ,"echo"   ,128 ,NULL ,4 ,NULL );
     xTaskCreate ( blink1     ,"blink1" ,128 ,NULL ,2 ,NULL );
-    xTaskCreate ( blink2     ,"blink2" ,128 ,NULL ,3 ,NULL );
+    xTaskCreate ( blink2     ,"blink2" ,128 ,NULL ,2 ,NULL );
     xTaskCreate ( switchTask ,"switch" ,128 ,NULL ,5 ,NULL );
 
     uart_printStr(APP_DEBUG_UART, "sase 2024 - freeRtos test\r\n");
