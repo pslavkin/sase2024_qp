@@ -25,36 +25,32 @@ uint8_t uartGetKey(uart * const me , QEvt const * const e)
 void uartEcho(uart * const me , QEvt const * const e)
 {
    (void)me;(void)e;
-//   struct evtUint8_t *c = (struct evtUint8_t*)e;
-//   uartDrvTxChar(c->data);
+   struct evtUint8_t *c = (struct evtUint8_t*)e;
+   uartDrvTxChar(c->data);
 }
-void uartPrint1(uart * const me , QEvt const * const e)
+void uartEmulatedBtn1(uart * const me , QEvt const * const e)
 {
    (void)e;(void)me;
    QEvt* k = Q_NEW(QEvt, BTN1_SIG);
    QF_PUBLISH(k, &me->super);
-//   uartDrvTxString("btn 1\r\n");
 }
-void uartPrint2(uart * const me , QEvt const * const e)
+void uartEmulatedBtn2(uart * const me , QEvt const * const e)
 {
    (void)e;(void)me;
    QEvt* k = Q_NEW(QEvt, BTN2_SIG);
    QF_PUBLISH(k, &me->super);
-//   uartDrvTxString("btn 2\r\n");
 }
-void uartPrint3(uart * const me , QEvt const * const e)
+void uartEmulatedBtn3(uart * const me , QEvt const * const e)
 {
    (void)e;(void)me;
    QEvt* k = Q_NEW(QEvt, BTN3_SIG);
    QF_PUBLISH(k, &me->super);
-//   uartDrvTxString("btn 3\r\n");
 }
-void uartPrint4(uart * const me , QEvt const * const e)
+void uartEmulatedBtn4(uart * const me , QEvt const * const e)
 {
    (void)e;(void)me;
    QEvt* k = Q_NEW(QEvt, BTN4_SIG);
    QF_PUBLISH(k, &me->super);
-//   uartDrvTxString("btn 4\r\n");
 }
 void uartInitial(uart * const me ,const void* par)
 {

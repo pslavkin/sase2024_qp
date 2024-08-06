@@ -27,9 +27,9 @@ void btn1Entry(btn * const me ,const void* par)
 {
    (void)par;(void)me;
 
-   //struct evtString_t *s = Q_NEW(struct evtString_t, PRINT_SIG);
-   //strcpy(s->data, "btn1 \r\n");
-   //QACTIVE_PUBLISH( &s->super, &me->super );
+   struct evtString_t *s = Q_NEW(struct evtString_t, PRINT_SIG);
+   strcpy(s->data, "btn1 \r\n");
+   QACTIVE_PUBLISH( &s->super, &me->super );
 
    //QACTIVE_POST(uartAo() , &s->super, 0U);
 }
@@ -38,10 +38,25 @@ void btn2Entry(btn * const me ,const void* par)
 {
    (void)par;(void)me;
 
-   //struct evtString_t *s = Q_NEW(struct evtString_t, PRINT_SIG);
-   //strcpy(s->data, "btn2 \r\n");
-   //QACTIVE_PUBLISH( &s->super, &me->super );
+   struct evtString_t *s = Q_NEW(struct evtString_t, PRINT_SIG);
+   strcpy(s->data, "btn2 \r\n");
+   QACTIVE_PUBLISH( &s->super, &me->super );
    //QACTIVE_POST(uartAo() , &s->super, 0U);
+}
+
+void btnPrintBtn3(btn * const me , QEvt const * const e)
+{
+   (void)e;(void)me;
+   struct evtString_t *s = Q_NEW(struct evtString_t, PRINT_SIG);
+   strcpy(s->data, "btn3 \r\n");
+   QACTIVE_PUBLISH( &s->super, &me->super );
+}
+void btnPrintBtn4(btn * const me , QEvt const * const e)
+{
+   (void)e;(void)me;
+   struct evtString_t *s = Q_NEW(struct evtString_t, PRINT_SIG);
+   strcpy(s->data, "btn4 \r\n");
+   QACTIVE_PUBLISH( &s->super, &me->super );
 }
 
 void btnInit(uint8_t prior)

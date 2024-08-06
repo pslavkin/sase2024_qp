@@ -18,12 +18,14 @@ void btnDrvPool(void)
    if(btn1())
    {
       QEvt *pe = Q_NEW(QEvt, BTN1_SIG);
-      QACTIVE_POST(btnAo() , pe, 0U);
+      QF_PUBLISH(pe, btnAo());
+      //QACTIVE_POST(btnAo() , pe, 0U);
    }
    if(btn2())
    {
       QEvt *pe = Q_NEW(QEvt, BTN2_SIG);
-      QACTIVE_POST(btnAo(), pe, 0U);
+      QF_PUBLISH(pe, btnAo());
+      //QACTIVE_POST(btnAo(), pe, 0U);
    }
 }
 

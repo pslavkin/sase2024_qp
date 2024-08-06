@@ -72,22 +72,22 @@ QState uart_idle(uart * const me, QEvt const * const e) {
             uartEcho(me,e);
             //${AOs::uart::SM::idle::KEY::[uartGetKey(me,e)=='1']}
             if (uartGetKey(me,e)=='1') {
-                uartPrint1(me,e);
+                uartEmulatedBtn1(me,e);
                 status_ = Q_HANDLED();
             }
             //${AOs::uart::SM::idle::KEY::[uartGetKey(me,e)=='2']}
             else if (uartGetKey(me,e)=='2') {
-                uartPrint2(me,e);
+                uartEmulatedBtn2(me,e);
                 status_ = Q_HANDLED();
             }
             //${AOs::uart::SM::idle::KEY::[uartGetKey(me,e)=='3']}
             else if (uartGetKey(me,e)=='3') {
-                uartPrint3(me,e);
+                uartEmulatedBtn3(me,e);
                 status_ = Q_HANDLED();
             }
             //${AOs::uart::SM::idle::KEY::[uartGetKey(me,e)=='4']}
             else if (uartGetKey(me,e)=='4') {
-                uartPrint4(me,e);
+                uartEmulatedBtn4(me,e);
                 status_ = Q_HANDLED();
             }
             else {

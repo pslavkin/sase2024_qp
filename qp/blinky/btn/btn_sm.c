@@ -65,12 +65,24 @@ QState btn_idle(btn * const me, QEvt const * const e) {
         }
         //${AOs::btn::SM::idle::BTN1}
         case BTN1_SIG: {
-            status_ = Q_HANDLED();
+            status_ = Q_TRAN(&btn_btn1);
             break;
         }
         //${AOs::btn::SM::idle::BTN2}
         case BTN2_SIG: {
             status_ = Q_TRAN(&btn_btn2);
+            break;
+        }
+        //${AOs::btn::SM::idle::BTN3}
+        case BTN3_SIG: {
+            btnPrintBtn3(me,e);
+            status_ = Q_HANDLED();
+            break;
+        }
+        //${AOs::btn::SM::idle::BTN4}
+        case BTN4_SIG: {
+            btnPrintBtn4(me,e);
+            status_ = Q_HANDLED();
             break;
         }
         default: {

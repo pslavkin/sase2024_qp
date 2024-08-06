@@ -40,7 +40,7 @@
       <!--${AOs::uart::SM::idle::KEY::[uartGetKey(me,e)=='1']}-->
       <choice>
        <guard>uartGetKey(me,e)=='1'</guard>
-       <action>uartPrint1(me,e);</action>
+       <action>uartEmulatedBtn1(me,e);</action>
        <choice_glyph conn="31,28,4,-1,2,12">
         <action box="2,0,19,6"/>
        </choice_glyph>
@@ -48,7 +48,7 @@
       <!--${AOs::uart::SM::idle::KEY::[uartGetKey(me,e)=='2']}-->
       <choice>
        <guard>uartGetKey(me,e)=='2'</guard>
-       <action>uartPrint2(me,e);</action>
+       <action>uartEmulatedBtn2(me,e);</action>
        <choice_glyph conn="31,28,4,-1,9,12">
         <action box="1,7,20,5"/>
        </choice_glyph>
@@ -56,7 +56,7 @@
       <!--${AOs::uart::SM::idle::KEY::[uartGetKey(me,e)=='3']}-->
       <choice>
        <guard>uartGetKey(me,e)=='3'</guard>
-       <action>uartPrint3(me,e);</action>
+       <action>uartEmulatedBtn3(me,e);</action>
        <choice_glyph conn="31,28,4,-1,16,12">
         <action box="1,14,20,5"/>
        </choice_glyph>
@@ -64,7 +64,7 @@
       <!--${AOs::uart::SM::idle::KEY::[uartGetKey(me,e)=='4']}-->
       <choice>
        <guard>uartGetKey(me,e)=='4'</guard>
-       <action>uartPrint4(me,e);</action>
+       <action>uartEmulatedBtn4(me,e);</action>
        <choice_glyph conn="31,28,4,-1,22,12">
         <action box="1,20,20,5"/>
        </choice_glyph>

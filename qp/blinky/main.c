@@ -18,7 +18,7 @@ int main(int argc, char* argv[])
     uartInit ( 1 );
     btnInit  ( 2 );
     ledInit  ( 3 );
-    rosInit  ( 4 );
+//    rosInit  ( 4 );
 
     return QF_run();
 }
