@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python3
 
 #=============================================================================
 # QView Monitoring for QP/Spy
