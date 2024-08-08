@@ -21,65 +21,45 @@ struct leds_t {
 void ledDrvRedToggle ( void )
 {
    leds.red ^= 0xFFU;
+   uartDrvTxString("ledDrvRed: ");
    uartDrvTxString(leds.red?"on\r\n":"off\r\n");
-//   QS_BEGIN_ID(QS_USER+1,0)
-//      QS_U8(1,leds.red);
-//      QS_STR("ledDrvRedToggle");
-//   QS_END()
 }
 void ledDrvRed ( uint8_t state )
 {
    leds.red = state?0xFFU:0x00U;
    uartDrvTxString("ledDrvRed: ");
    uartDrvTxString(leds.red?"on\r\n":"off\r\n");
-//   QS_BEGIN_ID(QS_USER+1,0)
-//      QS_U8(1,leds.red);
-//      QS_STR("ledDrvRed");
-//   QS_END()
 }
 
 void ledDrvGreenToggle ( void )
 {
    leds.green ^= 0xFFU;
+   uartDrvTxString("ledDrvGreen: ");
    uartDrvTxString(leds.green?"on\r\n":"off\r\n");
-//   QS_BEGIN_ID(QS_USER+1,0)
-//      QS_U8(1,leds.green);
-//      QS_STR("ledDrvGreenToggle");
-//   QS_END()
 }
 void ledDrvGreen ( uint8_t state )
 {
    leds.green = state?0xFFU:0x00U;
    uartDrvTxString("ledDrvGreen: ");
    uartDrvTxString(leds.green?"on\r\n":"off\r\n");
-//   QS_BEGIN_ID(QS_USER+1,0)
-//      QS_U8(1,leds.green);
-//      QS_STR("ledDrvGreen");
-//   QS_END()
 }
 
 void ledDrvBlueToggle ( void )
 {
    leds.blue ^= 0xFFU;
+   uartDrvTxString("ledDrvBlue: ");
    uartDrvTxString(leds.blue?"on\r\n":"off\r\n");
-//   QS_BEGIN_ID(QS_USER+1,0)
-//      QS_U8(1,leds.blue);
-//      QS_STR("ledDrvBlueToogle");
-//   QS_END()
 }
 void ledDrvBlue ( uint8_t state )
 {
    leds.blue = state?0xFFU:0x00U;
    uartDrvTxString("ledDrvBlue: ");
    uartDrvTxString(leds.blue?"on\r\n":"off\r\n");
-//   QS_BEGIN_ID(QS_USER+1,0)
-//      QS_U8(1,leds.blue);
-//      QS_STR("ledDrvBlue");
-//   QS_END()
 }
 void ledDrvLed1Toggle ( void )
 {
    leds.led1 ^= 0xFFU;
+   uartDrvTxString("led1 ");
    uartDrvTxString(leds.led1?"on\r\n":"off\r\n");
 }
 void ledDrvLed1 ( uint8_t state )

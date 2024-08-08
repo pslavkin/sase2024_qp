@@ -29,14 +29,14 @@ void rosOnEntry(ros * const me)
 
 void rosBtn1(ros * const me, QEvt const* e)
 {
-   (void)e;
+   (void)e;(void)me;
    struct evtString_t *s = Q_NEW(struct evtString_t, PRINT_SIG);
    strcpy(s->data, "1");
    QF_PUBLISH(&s->super, &me->super.super);
 }
 void rosBtn2(ros * const me, QEvt const* e)
 {
-   (void)e;
+   (void)e;(void)me;
    struct evtString_t *s = Q_NEW(struct evtString_t, PRINT_SIG);
    strcpy(s->data, "2");
    QF_PUBLISH(&s->super, &me->super.super);
@@ -44,7 +44,7 @@ void rosBtn2(ros * const me, QEvt const* e)
 
 void rosBtn3(ros * const me, QEvt const* e)
 {
-   (void)e;
+   (void)e;(void)me;
    struct evtString_t *s = Q_NEW(struct evtString_t, PRINT_SIG);
    strcpy(s->data, "3");
    QF_PUBLISH(&s->super, &me->super.super);
@@ -52,7 +52,7 @@ void rosBtn3(ros * const me, QEvt const* e)
 
 void rosBtn4(ros * const me, QEvt const* e)
 {
-   (void)e;
+   (void)e;(void)me;
    struct evtString_t *s = Q_NEW(struct evtString_t, PRINT_SIG);
    strcpy(s->data, "4");
    QF_PUBLISH(&s->super, &me->super.super);

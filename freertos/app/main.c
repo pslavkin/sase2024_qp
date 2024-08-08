@@ -70,7 +70,7 @@ int main(void)
     led_config    (         );
 
     xTaskCreate ( echo       ,"echo"   ,128 ,NULL ,4 ,NULL );
-    xTaskCreate ( blink1     ,"blink1" ,128 ,NULL ,2 ,NULL );
+    xTaskCreate ( blink1     ,"blink1" ,128 ,NULL ,3 ,NULL );
     xTaskCreate ( blink2     ,"blink2" ,128 ,NULL ,2 ,NULL );
     xTaskCreate ( switchTask ,"switch" ,128 ,NULL ,5 ,NULL );
 
